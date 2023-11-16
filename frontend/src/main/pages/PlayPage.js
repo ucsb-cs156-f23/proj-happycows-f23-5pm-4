@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import { Container, CardGroup, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
 import CommonsOverview from "main/components/Commons/CommonsOverview";
@@ -105,7 +104,6 @@ export default function PlayPage() {
   // Stryker disable all 
   const mutationsell = useBackendMutation(
     objectToAxiosParamsSell,
-    { onSuccess: onSuccessSell },
     [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
   );
   // Stryker restore all 
