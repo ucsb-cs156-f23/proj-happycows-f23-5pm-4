@@ -12,7 +12,7 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
     const columns = [
         {
             Header: 'User Id',
-            accessor: 'userId', 
+            accessor: 'userId',
         },
         {
             Header: 'Username',
@@ -43,11 +43,11 @@ export default function LeaderboardTable({ leaderboardUsers , currentUser }) {
         },
         {
             Header: 'Cows Sold',
-            accessor: 'cowsSold', 
+            accessor: 'cowsSold',
         },
         {
             Header: 'Cow Deaths',
-            accessor: 'cowDeaths', 
+            accessor: 'cowDeaths',
         },
     ];
 
