@@ -87,7 +87,8 @@ export default function PlayPage() {
     mutationbuy.mutate(userCommons)
   };
 
-
+const onSuccessSell = () => {
+};
 
   // Stryker disable all 
   const objectToAxiosParamsSell = (newUserCommons) => ({
@@ -104,6 +105,7 @@ export default function PlayPage() {
   // Stryker disable all 
   const mutationsell = useBackendMutation(
     objectToAxiosParamsSell,
+    { onSuccess: onSuccessSell },
     [`/api/usercommons/forcurrentuser?commonsId=${commonsId}`]
   );
   // Stryker restore all 
