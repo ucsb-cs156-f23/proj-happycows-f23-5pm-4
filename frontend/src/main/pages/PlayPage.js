@@ -89,9 +89,6 @@ export default function PlayPage() {
   };
 
 
-  const onSuccessSell = () => {
-    toast(`Cow sold!`);
-  }
 
   // Stryker disable all 
   const objectToAxiosParamsSell = (newUserCommons) => ({
