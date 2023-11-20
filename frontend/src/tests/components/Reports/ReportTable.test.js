@@ -4,6 +4,8 @@ import { MemoryRouter } from "react-router-dom";
 import ReportTable from "main/components/Reports/ReportTable";
 import reportFixtures from "fixtures/reportFixtures";
 
+import { currentUserFixtures } from "fixtures/currentUserFixtures";
+
 
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -56,6 +58,27 @@ describe("ReportTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-1-col-numCows`)).toHaveTextContent("3");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-createDate`)).toHaveTextContent("2023-08-07T01:12:09.088+00:00");
 
+  });
+
+  test("Cells are formatted correctly", () => {
+    const currentUser = currentUserFixtures.adminUser;
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <ReportTable reports={reportFixtures.threeReports} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+  
+    expect(screen.getAllByText("5")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("Blue")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("2")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("10")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("2023-08-07T01:12:54.765+00:00")[0]).toHaveStyle("text-align: right;");
+  
   });
 
   test("When not on storybook, navigates to view page", () => {
