@@ -4,9 +4,6 @@ import { MemoryRouter } from "react-router-dom";
 import ReportHeaderTable from "main/components/Reports/ReportHeaderTable";
 import reportFixtures from "fixtures/reportFixtures";
 
-import { currentUserFixtures } from "fixtures/currentUserFixtures";
-
-
 describe("ReportHeaderTable tests", () => {
   const queryClient = new QueryClient();
 
@@ -51,16 +48,6 @@ describe("ReportHeaderTable tests", () => {
   });
 
   test("Cells are formatted correctly", () => {
-    const currentUser = currentUserFixtures.adminUser;
-
-    // render(
-    //   <QueryClientProvider client={queryClient}>
-    //     <MemoryRouter>
-    //       <ReportHeaderTable reports={reportFixtures.threeReports} currentUser={currentUser} />
-    //     </MemoryRouter>
-    //   </QueryClientProvider>
-
-    // );
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
