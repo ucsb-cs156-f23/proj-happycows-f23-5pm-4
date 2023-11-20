@@ -21,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -33,6 +35,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -1235,6 +1238,28 @@ public class CommonsControllerTests extends ControllerTestCase {
         assertEquals(100, commonsPlus.getEffectiveCapacity());
     }
 
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getDefaultsTest() throws Exception {
+        Commons commons = Commons.builder()
+                                        .startingBalance(1000)
+                                        .cowPrice(100)
+                                        .milkPrice(1)
+                                        .degradationRate(0.001)
+                                        .carryingCapacity(100) //int
+                                        .capacityPerUser(1)     //int
+                                        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                                        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                                        .build();
 
+        MvcResult response = mockMvc.perform(get("/api/commons/defaults").contentType("application/json"))
+                .andExpect(status().isOk()).andReturn();
+
+
+        String responseString = response.getResponse().getContentAsString();
+        String actual = mapper.writeValueAsString(commons);
+
+        assertEquals(actual, responseString);
+    }
 }
 
