@@ -36,7 +36,7 @@ const reportFixtures = {
         },
         {
           "id": 5,
-          "commonsId": 1,
+          "commonsId": 2,
           "name": "Blue",
           "cowPrice": 100,
           "milkPrice": 5,

@@ -10,7 +10,10 @@ export default function ReportHeaderTable({ report  }) {
     const columns = [
         {
             Header: 'Cow Price',
-            accessor: 'cowPrice', 
+            id: 'cowPrice',
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.cowPrice);
+            },
             Cell: (props) => {
                 return (
                   <div style={{textAlign: "right"}}>{props.value}</div>)
@@ -18,7 +21,10 @@ export default function ReportHeaderTable({ report  }) {
         },
         {
             Header: 'Milk Price',
-            accessor: 'milkPrice',
+            id: 'milkPrice',
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.milkPrice);
+            },
             Cell: (props) => {
                 return (
                   <div style={{textAlign: "right"}}>{props.value}</div>)

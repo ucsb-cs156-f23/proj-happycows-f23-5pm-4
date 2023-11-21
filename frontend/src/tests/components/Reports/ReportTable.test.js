@@ -66,18 +66,18 @@ describe("ReportTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <ReportTable reports={reportFixtures.threeReports} currentUser={currentUser} />
+          <ReportTable reports={reportFixtures.sixReports} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
-  
-    expect(screen.getAllByText("5")[0]).toHaveStyle("text-align: right;");
+
     expect(screen.getAllByText("1")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[1]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("Blue")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("2")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("10")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("2023-08-07T01:12:54.765+00:00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[2]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("2023-08-07T01:11:47.197+00:00")[0]).toHaveStyle("text-align: right;");
   
   });
 

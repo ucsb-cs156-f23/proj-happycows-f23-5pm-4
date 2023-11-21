@@ -35,8 +35,8 @@ describe("ReportHeaderTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-cowPrice`)).toHaveTextContent("100");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-milkPrice`)).toHaveTextContent("5");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-cowPrice`)).toHaveTextContent("$100.00");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-milkPrice`)).toHaveTextContent("$5.00");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-startingBalance`)).toHaveTextContent("$10,000.00");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-startingDate`)).toHaveTextContent(/^2023-08-06$/);
     expect(screen.getByTestId(`${testId}-cell-row-0-col-showLeaderboard`)).toHaveTextContent("true");
@@ -57,8 +57,8 @@ describe("ReportHeaderTable tests", () => {
 
     );
   
-    expect(screen.getAllByText("100")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("5")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("$100.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("$5.00")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("$10,000.00")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText(/^2023-08-06$/)[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("true")[0]).toHaveStyle("text-align: right;");

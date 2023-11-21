@@ -65,9 +65,9 @@ describe("ReportLineTable tests", () => {
     expect(screen.getAllByText("$9,745.00")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("100")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("3")[1]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("0")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("0")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("0")[1]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("2023-08-07T01:12:54.767+00:00")[0]).toHaveStyle("text-align: right;");
   
   });
