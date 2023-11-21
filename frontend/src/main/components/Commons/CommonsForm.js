@@ -29,13 +29,26 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         },
     );
 
+    const {data: defaults} = useBackend(
+        "/api/commons/defaults", {
+            method: "GET",
+            url: "/api/commons/defaults",
+        },
+    );
+
     const testid = "CommonsForm";
 
     const curr = new Date();
     const today = curr.toISOString().split('T')[0];
     const DefaultVals = {
-        name: "", startingBalance: "20000", cowPrice: "200",
-        milkPrice: "2", degradationRate: 0.002, carryingCapacity: 200, startingDate: today
+        name: "",
+        startingBalance: "20000",
+        cowPrice: "200",
+        milkPrice: "2",
+        degradationRate: 0.002,
+        carryingCapacity: 200,
+        startingDate: today,
+        capacityPerUser: 2
     };
 
     const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
@@ -95,7 +108,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 data-testid={`${testid}-startingBalance`}
                                 type="number"
                                 step="0.01"
-                                defaultValue={DefaultVals.startingBalance}
+                                defaultValue={defaults?.startingBalance}
                                 isInvalid={!!errors.startingBalance}
                                 {...register("startingBalance", {
                                     valueAsNumber: true,
@@ -225,6 +238,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="capacityPerUser"
                             type="number"
                             step="1"
+                            defaultValue={DefaultVals.capacityPerUser}
                             isInvalid={!!errors.capacityPerUser}
                             {...register("capacityPerUser", {
                                 valueAsNumber: true,
