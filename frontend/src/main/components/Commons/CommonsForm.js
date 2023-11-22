@@ -17,7 +17,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register,
         formState: {errors},
         handleSubmit,
-        setValue,
+        reset,
     } = useForm(
         // modifiedCommons is guaranteed to be defined (initialCommons or {})
         {defaultValues: modifiedCommons}
@@ -40,16 +40,29 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
 
     useEffect(() => {
         if (defaults && !initialCommons) {
-            setValue("startingBalance", defaults.startingBalance);
-            setValue("cowPrice", defaults.cowPrice);
-            setValue("milkPrice", defaults.milkPrice);
-            setValue("degradationRate", defaults.degradationRate);
-            setValue("carryingCapacity", defaults.carryingCapacity);
-            setValue("capacityPerUser", defaults.capacityPerUser);
-            setValue("aboveCapacityHealthUpdateStrategy", defaults.aboveCapacityHealthUpdateStrategy);
-            setValue("belowCapacityHealthUpdateStrategy", defaults.belowCapacityHealthUpdateStrategy);
+            const {
+                startingBalance,
+                cowPrice,
+                milkPrice,
+                degradationRate,
+                carryingCapacity,
+                capacityPerUser,
+                aboveCapacityHealthUpdateStrategy,
+                belowCapacityHealthUpdateStrategy
+            } = defaults;
+            
+            reset({
+                startingBalance,
+                cowPrice,
+                milkPrice,
+                degradationRate,
+                carryingCapacity,
+                capacityPerUser,
+                aboveCapacityHealthUpdateStrategy,
+                belowCapacityHealthUpdateStrategy
+            });
         }
-    }, [defaults, setValue]);
+    }, [defaults, initialCommons, reset]);
 
     const testid = "CommonsForm";
 

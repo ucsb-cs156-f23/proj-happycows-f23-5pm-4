@@ -283,6 +283,13 @@ describe("CommonsForm tests", () => {
   });
 
   it("renders correctly when an initialCommons is not passed in", async () => {
+    const curr = new Date();
+    const today = curr.toISOString().substr(0, 10);
+    const DefaultVals = {
+      name: "", startingBalance: 10000, cowPrice: 100,
+      milkPrice: 1, degradationRate: 0.001, carryingCapacity: 100, startingDate: today,
+      aboveCapacityHealthUpdateStrategy: "Linear", belowCapacityHealthUpdateStrategy: "Constant"
+    };
 
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
@@ -290,7 +297,7 @@ describe("CommonsForm tests", () => {
     
     axiosMock
       .onGet("/api/commons/defaults")
-      .reply(200, commonsFixtures.defaultCommons[0]);
+      .reply(200, DefaultVals);
 
     render(
       <QueryClientProvider client={new QueryClient()}>
@@ -298,6 +305,17 @@ describe("CommonsForm tests", () => {
           <CommonsForm />
         </Router>
       </QueryClientProvider>
+    );
+
+    expect(await screen.findByTestId("CommonsForm-name")).toBeInTheDocument();
+    [
+      "name", "degradationRate", "carryingCapacity",
+      "milkPrice","cowPrice","startingBalance","startingDate",
+    ].forEach(
+        (item) => {
+          const element = screen.getByTestId(`CommonsForm-${item}`);
+          expect(element).toHaveValue(DefaultVals[item]);
+        }
     );
 
     expect(await screen.findByText(/When below capacity/)).toBeInTheDocument();
@@ -313,6 +331,10 @@ describe("CommonsForm tests", () => {
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
       .reply(200, healthUpdateStrategyListFixtures.real);
+    
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, commonsFixtures.defaultCommons);
 
     // https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
     const useBackendSpy = jest.spyOn(useBackendModule, 'useBackend');
@@ -330,6 +352,12 @@ describe("CommonsForm tests", () => {
         "/api/commons/all-health-update-strategies", {
         method: "GET",
         url: "/api/commons/all-health-update-strategies",
+      },
+      );
+      expect(useBackendSpy).toHaveBeenCalledWith(
+        "/api/commons/defaults", {
+        method: "GET",
+        url: "/api/commons/defaults",
       },
       );
     });
