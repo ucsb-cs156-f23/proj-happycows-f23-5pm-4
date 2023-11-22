@@ -160,6 +160,10 @@ describe("CommonsForm tests", () => {
         .onGet("/api/commons/all-health-update-strategies")
         .reply(200, healthUpdateStrategyListFixtures.real);
 
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, DefaultVals);
+
     render(
         <QueryClientProvider client={new QueryClient()}>
           <Router>
@@ -283,6 +287,10 @@ describe("CommonsForm tests", () => {
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
       .reply(200, healthUpdateStrategyListFixtures.real);
+    
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, commonsFixtures.defaultCommons[0]);
 
     render(
       <QueryClientProvider client={new QueryClient()}>
