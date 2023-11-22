@@ -296,7 +296,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <HealthUpdateStrategiesDropdown
                         formName={"aboveCapacityHealthUpdateStrategy"}
                         displayName={"When above capacity"}
-                        initialValue={defaults?.belowCapacityHealthUpdateStrategy}
+                        initialValue={defaults?.aboveCapacityHealthUpdateStrategy}
                         register={register}
                         healthUpdateStrategies={healthUpdateStrategies}
                     />
