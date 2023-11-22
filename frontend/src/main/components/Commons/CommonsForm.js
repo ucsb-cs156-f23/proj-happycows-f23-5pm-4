@@ -39,7 +39,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     );
 
     useEffect(() => {
-        if (defaults) {
+        if (defaults && !initialCommons) {
             setValue("startingBalance", defaults.startingBalance);
             setValue("cowPrice", defaults.cowPrice);
             setValue("milkPrice", defaults.milkPrice);
@@ -51,23 +51,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         }
     }, [defaults, setValue]);
 
-
-    console.log("defaults", defaults);
-
     const testid = "CommonsForm";
 
     const curr = new Date();
     const today = curr.toISOString().split('T')[0];
-    const DefaultVals = {
-        name: "",
-        startingBalance: "20000",
-        cowPrice: "200",
-        milkPrice: "2",
-        degradationRate: 0.002,
-        carryingCapacity: 200,
-        startingDate: today,
-        capacityPerUser: 2
-    };
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
