@@ -55,6 +55,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
 
     const curr = new Date();
     const today = curr.toISOString().split('T')[0];
+    const DefaultVals = {
+        name: "",
+        startingDate: today,
+    };
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
