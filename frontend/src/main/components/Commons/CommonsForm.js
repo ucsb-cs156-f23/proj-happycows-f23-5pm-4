@@ -3,6 +3,7 @@ import {useForm} from "react-hook-form";
 import {useBackend} from "main/utils/useBackend";
 
 import HealthUpdateStrategiesDropdown from "main/components/Commons/HealthStrategiesUpdateDropdown";
+import { useEffect } from "react";
 
 function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     let modifiedCommons = initialCommons ? { ...initialCommons } : {};  // make a shallow copy of initialCommons
@@ -16,6 +17,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register,
         formState: {errors},
         handleSubmit,
+        setValue,
     } = useForm(
         // modifiedCommons is guaranteed to be defined (initialCommons or {})
         {defaultValues: modifiedCommons}
@@ -36,6 +38,22 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         },
     );
 
+    useEffect(() => {
+        if (defaults) {
+            setValue("startingBalance", defaults.startingBalance);
+            setValue("cowPrice", defaults.cowPrice);
+            setValue("milkPrice", defaults.milkPrice);
+            setValue("degradationRate", defaults.degradationRate);
+            setValue("carryingCapacity", defaults.carryingCapacity);
+            setValue("capacityPerUser", defaults.capacityPerUser);
+            setValue("aboveCapacityHealthUpdateStrategy", defaults.aboveCapacityHealthUpdateStrategy);
+            setValue("belowCapacityHealthUpdateStrategy", defaults.belowCapacityHealthUpdateStrategy);
+        }
+    }, [defaults, setValue]);
+
+
+    console.log("defaults", defaults);
+
     const testid = "CommonsForm";
 
     const curr = new Date();
@@ -50,9 +68,6 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         startingDate: today,
         capacityPerUser: 2
     };
-
-    const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
-    const aboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
@@ -138,7 +153,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 id="cowPrice"
                                 type="number"
                                 step="0.01"
-                                defaultValue={DefaultVals.cowPrice}
+                                defaultValue={defaults?.cowPrice}
                                 isInvalid={!!errors.cowPrice}
                                 {...register("cowPrice", {
                                     valueAsNumber: true,
@@ -168,7 +183,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 id="milkPrice"
                                 type="number"
                                 step="0.01"
-                                defaultValue={DefaultVals.milkPrice}
+                                defaultValue={defaults?.milkPrice}
                                 isInvalid={!!errors.milkPrice}
                                 {...register("milkPrice", {
                                     valueAsNumber: true,
@@ -195,7 +210,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="degradationRate"
                             type="number"
                             step="0.0001"
-                            defaultValue={DefaultVals.degradationRate}
+                            defaultValue={defaults?.degradationRate}
 
                             isInvalid={!!errors.degradationRate}
                             {...register("degradationRate", {
@@ -217,7 +232,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="carryingCapacity"
                             type="number"
                             step="1"
-                            defaultValue={DefaultVals.carryingCapacity}
+                            defaultValue={defaults?.carryingCapacity}
                             isInvalid={!!errors.carryingCapacity}
                             {...register("carryingCapacity", {
                                 valueAsNumber: true,
@@ -238,7 +253,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="capacityPerUser"
                             type="number"
                             step="1"
-                            defaultValue={DefaultVals.capacityPerUser}
+                            defaultValue={defaults?.capacityPerUser}
                             isInvalid={!!errors.capacityPerUser}
                             {...register("capacityPerUser", {
                                 valueAsNumber: true,
@@ -281,7 +296,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <HealthUpdateStrategiesDropdown
                         formName={"aboveCapacityHealthUpdateStrategy"}
                         displayName={"When above capacity"}
-                        initialValue={aboveStrategy}
+                        initialValue={defaults?.belowCapacityHealthUpdateStrategy}
                         register={register}
                         healthUpdateStrategies={healthUpdateStrategies}
                     />
@@ -291,7 +306,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <HealthUpdateStrategiesDropdown
                         formName={"belowCapacityHealthUpdateStrategy"}
                         displayName={"When below capacity"}
-                        initialValue={belowStrategy}
+                        initialValue={defaults?.belowCapacityHealthUpdateStrategy}
                         register={register}
                         healthUpdateStrategies={healthUpdateStrategies}
                     />
