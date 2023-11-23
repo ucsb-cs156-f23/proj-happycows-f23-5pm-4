@@ -11,6 +11,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         modifiedCommons.startingDate = modifiedCommons.startingDate.split("T")[0];
     }
 
+    if (modifiedCommons.lastDate) {
+        modifiedCommons.lastDate = modifiedCommons.lastDate.split("T")[0];
+    }
+
     // Stryker disable all
     const {
         register,
@@ -33,9 +37,12 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
 
     const curr = new Date();
     const today = curr.toISOString().split('T')[0];
+    const oneMonthLater = new Date(curr.getFullYear(), curr.getMonth()+1, curr.getDate()).toISOString().split('T')[0];
+
     const DefaultVals = {
         name: "", startingBalance: "10000", cowPrice: "100",
-        milkPrice: "1", degradationRate: 0.001, carryingCapacity: 100, startingDate: today
+        milkPrice: "1", degradationRate: 0.001, carryingCapacity: 100,
+        startingDate: today, lastDate: oneMonthLater
     };
 
     const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
@@ -254,6 +261,24 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                 />
                 <Form.Control.Feedback type="invalid">
                     {errors.startingDate?.message}
+                </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-5" style={{width: '300px', height: '50px'}} data-testid={`${testid}-r4`}>
+                <Form.Label htmlFor="lastDate">Last Date</Form.Label>
+                <Form.Control
+                    data-testid={`${testid}-lastDate`}
+                    id="lastDate"
+                    type="date"
+                    defaultValue={DefaultVals.lastDate}
+                    isInvalid={!!errors.lastDate}
+                    {...register("lastDate", {
+                        valueAsDate: true,
+                        validate: {isPresent: (v) => !isNaN(v)},
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.lastDate?.message}
                 </Form.Control.Feedback>
             </Form.Group>
             
