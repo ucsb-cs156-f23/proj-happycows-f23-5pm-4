@@ -50,21 +50,23 @@ export default function LeaderboardPage() {
 
   const navigate = useNavigate();
 
+  
+
   const showLeaderboard = (hasRole(currentUser, "ROLE_ADMIN") || commons.showLeaderboard );
   return (
     <div data-testid={"LeaderboardPage-main-div"} style={{backgroundSize: 'cover', backgroundImage: `url(${Background})`}}>
         <BasicLayout>
             <div className="pt-2">
+                <Button onClick={() => navigate(-1)} data-testid="LeaderboardPage-back-button" style={{ float: "right" }} >
+                    Back
+                </Button>
                 <h1>Leaderboard</h1>
                 {
                   showLeaderboard?
                   (<LeaderboardTable leaderboardUsers={userCommons} currentUser={currentUser} />) :
                   (<p>You're not authorized to see the leaderboard.</p>)
                 }
-                </div>
-                <Button onClick={() => navigate(-1)} data-testid="LeaderboardPage-back-button" >
-                    Back
-                </Button>
+            </div>
         </BasicLayout>
     </div>
   )
