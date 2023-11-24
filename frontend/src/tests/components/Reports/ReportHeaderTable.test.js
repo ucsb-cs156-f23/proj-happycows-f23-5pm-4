@@ -23,8 +23,6 @@ describe("ReportHeaderTable tests", () => {
     const expectedFields = [ 'cowPrice', 'milkPrice', 'startingBalance', 'startingDate', 'showLeaderboard', 'carryingCapacity', 'degradationRate', 'belowCapacityHealthUpdateStrategy', 'aboveCapacityHealthUpdateStrategy']
     const expectedHeaders = ['Cow Price', 'Milk Price', 'Start Bal', 'Start Date', 'Leaderboard', 'Capacity', 'Degrad Rate', 'BelowCap', 'AboveCap']
 
-    // const testId = "ReportHeaderTable"
-
     expectedHeaders.forEach((headerText) => {
       const header = screen.getByText(headerText);
       expect(header).toBeInTheDocument();
