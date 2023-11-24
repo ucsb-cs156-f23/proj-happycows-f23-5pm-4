@@ -21,7 +21,7 @@ describe("LeaderboardTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -33,7 +33,7 @@ describe("LeaderboardTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -46,7 +46,7 @@ describe("LeaderboardTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -59,7 +59,7 @@ describe("LeaderboardTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} />
         </MemoryRouter>
       </QueryClientProvider>
 
