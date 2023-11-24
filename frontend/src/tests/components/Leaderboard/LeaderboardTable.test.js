@@ -16,7 +16,6 @@ describe("LeaderboardTable tests", () => {
   const queryClient = new QueryClient();
 
   test("renders without crashing for empty table with user not logged in", () => {
-    const currentUser = null;
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -28,7 +27,6 @@ describe("LeaderboardTable tests", () => {
     );
   });
   test("renders without crashing for empty table for ordinary user", () => {
-    const currentUser = currentUserFixtures.userOnly;
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -41,7 +39,6 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("renders without crashing for empty table for admin", () => {
-    const currentUser = currentUserFixtures.adminUser;
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -54,7 +51,6 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("Has the expected column headers and content for adminUser", () => {
-    const currentUser = currentUserFixtures.adminUser;
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -93,7 +89,6 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("Table is formatted correctly", () => {
-    const currentUser = currentUserFixtures.adminUser;
 
     render(
       <QueryClientProvider client={queryClient}>
