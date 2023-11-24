@@ -98,7 +98,7 @@ describe("LeaderboardTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={leaderboardFixtures.fiveUserCommonsLB} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={leaderboardFixtures.fiveUserCommonsLB} />
         </MemoryRouter>
       </QueryClientProvider>
 
