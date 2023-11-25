@@ -402,6 +402,8 @@ describe("CommonsForm tests", () => {
         url: "/api/commons/all-health-update-strategies",
       },
       );
+    });
+    await waitFor(() => {
       expect(useBackendSpy).toHaveBeenCalledWith(
         "/api/commons/defaults", {
         method: "GET",
