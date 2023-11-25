@@ -17,6 +17,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         register,
         formState: {errors},
         handleSubmit,
+        reset,
     } = useForm(
         // modifiedCommons is guaranteed to be defined (initialCommons or {})
         {defaultValues: modifiedCommons}
