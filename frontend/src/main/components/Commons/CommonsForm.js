@@ -214,20 +214,20 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             overlay={<Tooltip>This number controls the rate at which cow health decreases when the number of cows in the commons is greater than the effective carrying capacity. The way in which the number is used depends on the selected Health Update Formulas below.</Tooltip>}
                             delay='100'
                         >
-                        <Form.Control
-                            data-testid={`${testid}-degradationRate`}
-                            id="degradationRate"
-                            type="number"
-                            step="0.0001"
-                            defaultValue={defaults?.degradationRate}
+                            <Form.Control
+                                data-testid={`${testid}-degradationRate`}
+                                id="degradationRate"
+                                type="number"
+                                step="0.0001"
+                                defaultValue={defaults?.degradationRate}
 
-                            isInvalid={!!errors.degradationRate}
-                            {...register("degradationRate", {
-                                valueAsNumber: true,
-                                required: "Degradation rate is required",
-                                min: {value: 0, message: "Degradation rate must be ≥ 0"},
-                            })}
-                        />
+                                isInvalid={!!errors.degradationRate}
+                                {...register("degradationRate", {
+                                    valueAsNumber: true,
+                                    required: "Degradation rate is required",
+                                    min: {value: 0, message: "Degradation rate must be ≥ 0"},
+                                })}
+                            />
                         </OverlayTrigger>
                         <Form.Control.Feedback type="invalid">
                             {errors.degradationRate?.message}
@@ -242,19 +242,19 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             overlay={<Tooltip>This is the minimum carrying capacity for the commons; at least this many cows may graze in the commons regardless of the number of players. If this number is zero, then only the Capacity Per User is used to determine the actual carrying capacity.</Tooltip>}
                             delay='100'
                         >
-                        <Form.Control
-                            data-testid={`${testid}-carryingCapacity`}
-                            id="carryingCapacity"
-                            type="number"
-                            step="1"
-                            defaultValue={defaults?.carryingCapacity}
-                            isInvalid={!!errors.carryingCapacity}
-                            {...register("carryingCapacity", {
-                                valueAsNumber: true,
-                                required: "Carrying capacity is required",
-                                min: {value: 1, message: "Carrying Capacity must be ≥ 1"},
-                            })}
-                        />
+                            <Form.Control
+                                data-testid={`${testid}-carryingCapacity`}
+                                id="carryingCapacity"
+                                type="number"
+                                step="1"
+                                defaultValue={defaults?.carryingCapacity}
+                                isInvalid={!!errors.carryingCapacity}
+                                {...register("carryingCapacity", {
+                                    valueAsNumber: true,
+                                    required: "Carrying capacity is required",
+                                    min: {value: 1, message: "Carrying Capacity must be ≥ 1"},
+                                })}
+                            />
                         </OverlayTrigger>
                         <Form.Control.Feedback type="invalid">
                             {errors.carryingCapacity?.message}
@@ -269,18 +269,18 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             overlay={<Tooltip>When this number is greater than zero, the commons will be able to support at least this many cows per farmer; that is, the effective carrying capacity of the commons is the value of Carrying Capacity, or Capacity Per User times the number of Farmers, whichever is greater. If this number is zero, then the Carrying Capacity is fixed regardless of the number of users.</Tooltip>}
                             delay='100'
                         >
-                        <Form.Control
-                            data-testid={`${testid}-capacityPerUser`}
-                            id="capacityPerUser"
-                            type="number"
-                            step="1"
-                            defaultValue={defaults?.capacityPerUser}
-                            isInvalid={!!errors.capacityPerUser}
-                            {...register("capacityPerUser", {
-                                valueAsNumber: true,
-                                required: "Capacity Per User is required",
-                            })}
-                        />
+                            <Form.Control
+                                data-testid={`${testid}-capacityPerUser`}
+                                id="capacityPerUser"
+                                type="number"
+                                step="1"
+                                defaultValue={defaults?.capacityPerUser}
+                                isInvalid={!!errors.capacityPerUser}
+                                {...register("capacityPerUser", {
+                                    valueAsNumber: true,
+                                    required: "Capacity Per User is required",
+                                })}
+                            />
                         </OverlayTrigger>
                         <Form.Control.Feedback type="invalid">
                             {errors.capacityPerUser?.message}
@@ -297,17 +297,17 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             overlay={<Tooltip>This is the starting date of the game; before this date, the jobs to calculate statistics, milk the cows, and report profits, etc. will not be run on this commons.</Tooltip>}
                             delay='100'
                 >
-                <Form.Control
-                    data-testid={`${testid}-startingDate`}
-                    id="startingDate"
-                    type="date"
-                    defaultValue={DefaultVals.startingDate}
-                    isInvalid={!!errors.startingDate}
-                    {...register("startingDate", {
-                        valueAsDate: true,
-                        validate: {isPresent: (v) => !isNaN(v)},
-                    })}
-                />
+                    <Form.Control
+                        data-testid={`${testid}-startingDate`}
+                        id="startingDate"
+                        type="date"
+                        defaultValue={DefaultVals.startingDate}
+                        isInvalid={!!errors.startingDate}
+                        {...register("startingDate", {
+                            valueAsDate: true,
+                            validate: {isPresent: (v) => !isNaN(v)},
+                        })}
+                    />
                 </OverlayTrigger>
                 <Form.Control.Feedback type="invalid">
                     {errors.startingDate?.message}
@@ -348,12 +348,12 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             overlay={<Tooltip>When checked, regular users will have access to the leaderboard for this commons. When unchecked, only admins can see the leaderboard for this commons.</Tooltip>}
                             delay='100'
                 >
-                <Form.Check
-                    data-testid={`${testid}-showLeaderboard`}
-                    type="checkbox"
-                    id="showLeaderboard"
-                    {...register("showLeaderboard")}
-                />
+                    <Form.Check
+                        data-testid={`${testid}-showLeaderboard`}
+                        type="checkbox"
+                        id="showLeaderboard"
+                        {...register("showLeaderboard")}
+                    />
                 </OverlayTrigger>
             </Form.Group>
             <Row className="mb-5">
