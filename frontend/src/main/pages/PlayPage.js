@@ -121,15 +121,26 @@ const onSuccessSell = () => {
     setIsChatOpen((prevState) => !prevState);
   };
 
+  // const chatButtonStyle = {
+  //   width: '60px',
+  //   height: '60px',
+  //   borderRadius: '50%',
+  //   color: 'black',
+  //   position: 'fixed',
+  //   right: '20px',
+  //   fontSize: '24px',
+  // };
+
   const chatButtonStyle = {
-    width: '40px',
-    height: '40px',
+    width: '60px',
+    height: '60px',
     borderRadius: '50%',
-    backgroundColor: 'lightblue',
     color: 'black',
     position: 'fixed',
     bottom: '20px',
     right: '20px',
+    fontSize: '24px',
+    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.75)',
   };
 
   const chatContainerStyle = {
@@ -158,7 +169,7 @@ const onSuccessSell = () => {
       <div style={chatContainerStyle} data-testid="playpage-chat-div">
         {!!isChatOpen && <ChatPanel commonsId={commonsId}/>}
         <Button style={chatButtonStyle} onClick={toggleChatWindow} data-testid="playpage-chat-toggle">
-          {!!isChatOpen ? '▼' : '▲'}
+            {!!isChatOpen ? '🔻' : '💬'}
         </Button>
       </div>
     </div>
