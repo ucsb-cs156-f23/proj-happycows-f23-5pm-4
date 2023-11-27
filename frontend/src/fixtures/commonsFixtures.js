@@ -72,6 +72,26 @@ const commonsFixtures = {
                 "aboveCapacityHealthUpdateStrategy": "Linear"
             }
         ],
+    defaultCommons:
+    [
+        {
+            "id": 1,
+            "name": "",
+            "day": 1,
+            "startingDate": "2025-03-05T15:50:10",
+            "startingBalance": 10000,
+            "totalPlayers": 100,
+            "cowPrice": 100,
+            "milkPrice": 1,
+            "degradationRate": .001,
+            "showLeaderboard": true,
+            "capacityPerUser": 1,
+            "carryingCapacity": 100,
+            "effectiveCapacity": 100,
+            "belowCapacityHealthUpdateStrategy": "Constant",
+            "aboveCapacityHealthUpdateStrategy": "Linear"
+        }
+    ],
 
     sevenCommons: [
         {
