@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/Chat/ChatMessageDisplay.js</title>
+    <title>Code coverage report for components/Chat/ChatContainer.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Chat</a> ChatMessageDisplay.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Chat</a> ChatContainer.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -91,20 +91,23 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -112,36 +115,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Card } from 'react-bootstrap';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, {useState} from "react";
+import ChatPanel from "./ChatPanel";
+import ChatToggle from "./ChatToggle";
 &nbsp;
-const ChatMessageDisplay = ({ message }) =&gt; {
-  const username = message?.username || "Anonymous";
+const ChatContainer = ({commonsId}) =&gt; {
+    const chatContainerStyle = {
+        width: '550px',
+        position: 'fixed',
+        bottom: '100px',
+        right: '20px',
+      };
 &nbsp;
-  const formattedTimestamp = message?.timestamp ? message.timestamp.replace('T', ' ').split('.')[0] : '';
+    const [isChatOpen, setIsChatOpen] = useState(false);
 &nbsp;
-  const testId = `ChatMessageDisplay-${message?.id}`;
+    const toggleChatWindow = () =&gt; {
+        setIsChatOpen((prevState) =&gt; !prevState);
+    };
 &nbsp;
-  return (
-    &lt;Card data-testid={testId}&gt;
-      &lt;Card.Body&gt;
-        &lt;div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}&gt;
-          &lt;Card.Title data-testid={`${testId}-User`} style={{ margin: 0 }}&gt;
-            {username} ({message?.userId})
-          &lt;/Card.Title&gt;
-          &lt;Card.Subtitle data-testid={`${testId}-Date`} style={{ margin: 0 }}&gt;
-            {formattedTimestamp}
-          &lt;/Card.Subtitle&gt;
+    return (
+        &lt;div style={chatContainerStyle} data-testid="playpage-chat-div"&gt;
+            {!!isChatOpen &amp;&amp; &lt;ChatPanel commonsId={commonsId}/&gt;}
+            &lt;ChatToggle isChatOpen={isChatOpen} onClick={toggleChatWindow} /&gt;
         &lt;/div&gt;
-        &lt;Card.Text data-testid={`${testId}-Message`}&gt;{message?.message}&lt;/Card.Text&gt;
-      &lt;/Card.Body&gt;
-    &lt;/Card&gt;
-  );
+    );
 };
 &nbsp;
-export default ChatMessageDisplay;</pre></td></tr></table></pre>
+export default ChatContainer;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
