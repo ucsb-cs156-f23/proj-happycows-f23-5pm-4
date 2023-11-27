@@ -71,13 +71,13 @@ export default function HomePage({hour=null}) {
             <Col sm>
               <CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} />
               {
-                commonsJoined.length == 0 ? <p>Currently, there are no commons available</p> : null 
+                commonsJoined.length === 0 ? <p>Currently, there are no commons available</p> : null 
               }
               </Col>
             <Col sm>
               <CommonsList commonList={commonsNotJoinedList} title="Join A New Commons" buttonText={"Join"} buttonLink={mutation.mutate} />
               {
-                commonsNotJoinedList.length == 0 ? <p><center>Currently, there are no commons available</center></p> : null 
+                commonsNotJoinedList.length === 0 ? <p><center>Currently, there are no commons available</center></p> : null 
               }
               </Col>
           </Row>
