@@ -65,6 +65,7 @@ public class UpdateCowHealthJobIndTests {
                         .milkPrice(2)
                         .startingBalance(300)
                         .startingDate(LocalDate.now())
+                        .lastDate(LocalDate.now().plusMonths(1))
                         .capacityPerUser(1)
                         .carryingCapacity(100)
                         .degradationRate(1)

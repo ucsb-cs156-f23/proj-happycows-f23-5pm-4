@@ -46,6 +46,7 @@ public class UserCommonsControllerTests extends ControllerTestCase {
             .milkPrice(2)
             .startingBalance(300)
             .startingDate(LocalDate.now())
+            .lastDate(LocalDate.now().plusMonths(1))
             .build();
 
     public UserCommons getTestUserCommons() {

@@ -53,6 +53,7 @@ public class MilkTheCowsJobIndTests {
             .milkPrice(2)
             .startingBalance(300)
             .startingDate(LocalDate.now())
+            .lastDate(LocalDate.now().plusMonths(1))
             .carryingCapacity(100)
             .degradationRate(0.01)
             .build();

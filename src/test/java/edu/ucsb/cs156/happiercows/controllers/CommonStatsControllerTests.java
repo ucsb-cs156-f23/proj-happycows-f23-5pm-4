@@ -73,6 +73,7 @@ public class CommonStatsControllerTests extends ControllerTestCase {
         .milkPrice(2)
         .startingBalance(300)
         .startingDate(LocalDate.parse("2022-03-05"))
+        .lastDate(LocalDate.parse("2030-12-31"))
         .showLeaderboard(true)
         .carryingCapacity(100)
         .degradationRate(0.01)
