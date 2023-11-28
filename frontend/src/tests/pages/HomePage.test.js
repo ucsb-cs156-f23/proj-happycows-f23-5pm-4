@@ -98,7 +98,7 @@ describe("HomePage tests", () => {
         );
 
         const title = screen.getByTestId("homePage-title");
-        expect(title).toHaveAttribute("style", "font-size: 75px; border-radius: 7px; background-color: white; opacity: 0.9;");
+        expect(title).toHaveStyle({fontSize: '50px', borderRadius: '8px', fontFamily: 'Copperplate', color: '#003366', backgroundColor: '#66B2FF', opacity: '0.9'});
     });
 
     test("renders without crashing when lists are full", () => {
