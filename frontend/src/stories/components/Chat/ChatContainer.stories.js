@@ -1,7 +1,9 @@
 import React from 'react';
 import { rest } from 'msw';
+
 import ChatContainer from 'main/components/Chat/ChatContainer';
 import {chatMessageFixtures} from 'fixtures/chatMessageFixtures';
+import userCommonsFixtures from 'fixtures/userCommonsFixtures';
 
 export default {
     title: 'components/Chat/ChatContainer',
@@ -14,11 +16,12 @@ const Template = (args) => {
     )
 };
 
-export const Default = Template.bind({});
+export const Empty = Template.bind({});
 
-Default.args = {
-    // Add your props here
+Empty.args = {
+    commonsId: 1,
 };
+
 export const OneMessage = Template.bind({});
 
 OneMessage.args = {
