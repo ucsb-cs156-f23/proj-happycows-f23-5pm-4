@@ -104,12 +104,13 @@ describe("ChatMessageDisplay tests", () => {
         expect(screen.getByText("John Doe")).toBeInTheDocument();
 
         /* eslint-disable-next-line testing-library/no-node-access */
-        const styleDiv = screen.getByTestId("ChatMessageDisplay-1-User").parentElement;
+        const nameDiv = screen.getByTestId("ChatMessageDisplay-1-User").parentElement;
+        const cardDiv = screen.getByTestId("ChatMessageDisplay-1");
 
-        expect(styleDiv).toHaveStyle("display: flex; justify-content: space-between; align-items: center");
+        expect(nameDiv).toHaveStyle("display: flex; justify-content: space-between; align-items: center");
         expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveStyle("margin: 0px; font-weight: 600");
         expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveStyle("margin: 0px");
-        expect(styleDiv.parentElement.parentElement).toHaveStyle("background-color: whitesmoke");
+        expect(cardDiv).toHaveStyle("background-color: whitesmoke");
     });
 
     test("renders other people's messages differently", async () => {
@@ -127,12 +128,13 @@ describe("ChatMessageDisplay tests", () => {
         expect(screen.getByText("John Doe")).toBeInTheDocument();
 
         /* eslint-disable-next-line testing-library/no-node-access */
-        const styleDiv = screen.getByTestId("ChatMessageDisplay-3-User").parentElement;
+        const nameDiv = screen.getByTestId("ChatMessageDisplay-3-User").parentElement;
+        const cardDiv = screen.getByTestId("ChatMessageDisplay-3");
 
-        expect(styleDiv).toHaveStyle("display: flex; justify-content: space-between; align-items: center");
+        expect(nameDiv).toHaveStyle("display: flex; justify-content: space-between; align-items: center");
         expect(screen.getByTestId("ChatMessageDisplay-3-User")).toHaveStyle("margin: 0px; font-weight: 400");
         expect(screen.getByTestId("ChatMessageDisplay-3-Date")).toHaveStyle("margin: 0px");
-        expect(styleDiv.parentElement.parentElement).toHaveStyle("background-color: white");
+        expect(cardDiv).toHaveStyle("background-color: white");
     });
 
 });
