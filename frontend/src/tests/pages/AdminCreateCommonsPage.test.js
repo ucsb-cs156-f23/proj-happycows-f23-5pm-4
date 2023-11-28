@@ -115,7 +115,7 @@ describe("AdminCreateCommonsPage tests", () => {
 
         // The Date object is initialized from the form without time information. I believe React
         // Query calls toISOString() before stuffing it into the body of the POST request, so the
-        // POST contains the suffix .000Z, which Java's LocalDateTime.parse ignores. [1]
+        // POST contains the suffix T00:00:00.000Z, which Java's LocalDate.parse ignores. [1]
 
         const expectedCommons = {
             name: "My New Commons",
