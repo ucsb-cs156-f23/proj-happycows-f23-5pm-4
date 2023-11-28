@@ -111,6 +111,7 @@ describe("ChatMessageDisplay tests", () => {
         expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveStyle("margin: 0px; font-weight: 600");
         expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveStyle("margin: 0px");
         expect(cardDiv).toHaveStyle("background-color: whitesmoke");
+        expect(cardDiv).toHaveStyle("border: 0");
     });
 
     test("renders other people's messages differently", async () => {
@@ -135,6 +136,7 @@ describe("ChatMessageDisplay tests", () => {
         expect(screen.getByTestId("ChatMessageDisplay-3-User")).toHaveStyle("margin: 0px; font-weight: 400");
         expect(screen.getByTestId("ChatMessageDisplay-3-Date")).toHaveStyle("margin: 0px");
         expect(cardDiv).toHaveStyle("background-color: white");
+        expect(cardDiv).toHaveStyle("border: 0");
     });
 
 });
