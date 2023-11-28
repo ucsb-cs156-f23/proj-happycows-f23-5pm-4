@@ -3,7 +3,7 @@ package edu.ucsb.cs156.happiercows.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -51,7 +51,7 @@ public class CommonsPlusBuilderServiceTests {
         .cowPrice(10)
         .milkPrice(2)
         .startingBalance(300)
-        .startingDate(LocalDateTime.parse("2022-03-05T15:50:10"))
+        .startingDate(LocalDate.parse("2022-03-05"))
         .showLeaderboard(true)
         .carryingCapacity(100)
         .degradationRate(0.01)

@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -55,7 +55,7 @@ public class CommonStatsServiceTests {
         .cowPrice(10)
         .milkPrice(2)
         .startingBalance(300)
-        .startingDate(LocalDateTime.parse("2022-03-05T15:50:10"))
+        .startingDate(LocalDate.parse("2022-03-05"))
         .showLeaderboard(true)
         .carryingCapacity(100)
         .degradationRate(0.01)
