@@ -1242,7 +1242,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void getDefaultsTest() throws Exception {
         Commons commons = Commons.builder()
-                                        .startingBalance(1000)
+                                        .startingBalance(10000)
                                         .cowPrice(100)
                                         .milkPrice(1)
                                         .degradationRate(0.001)
