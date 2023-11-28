@@ -1,7 +1,8 @@
 import { Card } from 'react-bootstrap';
 
 const ChatMessageDisplay = ({ message, currentUser }) => {
-  const isCurrentUser = message?.userId === currentUser?.root?.user?.id;
+  const username = message?.username || "Anonymous";
+  const isCurrentUser = message?.userId === currentUser?.root.user.id;
 
   const formattedTimestamp = message?.timestamp ? message.timestamp.replace('T', ' ').split('.')[0] : '';
 
@@ -11,8 +12,8 @@ const ChatMessageDisplay = ({ message, currentUser }) => {
     <Card data-testid={testId} style={{ backgroundColor: isCurrentUser ? 'whitesmoke' : 'white' }}>
       <Card.Body>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Card.Title data-testid={`${testId}-User`} style={{ margin: 0, fontWeight: isCurrentUser ? '600' : 'normal' }}>
-            {message?.username} 
+          <Card.Title data-testid={`${testId}-User`} style={{ margin: 0, fontWeight: isCurrentUser ? '600' : '400' }}>
+            {username} 
           </Card.Title>
           <Card.Subtitle data-testid={`${testId}-Date`} style={{ margin: 0 }}>
             {formattedTimestamp}
