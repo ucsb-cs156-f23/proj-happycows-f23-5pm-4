@@ -53,21 +53,27 @@ const ChatDisplay = ({ commonsId, currentUser }) => {
 
     return (
     <div style={{ display: "flex", flexDirection: "column-reverse", overflowY: "scroll", maxHeight: "300px", border: "1px solid lightgray", borderRadius: "5px" }} data-testid="ChatDisplay" >
-        {Array.isArray(sortedMessages) && sortedMessages.slice(0, initialMessagePageSize).map((message, index) => {
-            const messageAbove = sortedMessages[index + 1];
+        {/* {Array.isArray(sortedMessages) && sortedMessages.slice(0, initialMessagePageSize).map((message, index) => {
+            // const messageAbove = sortedMessages[index + 1];
             // const messageBelow = sortedMessages[index - 1];
-            const hideLine = messageAbove && messageAbove.userId === message.userId ;
+            // const hideLine = messageAbove && messageAbove.userId === message.userId ;
 
             return (
                 <React.Fragment key={message.id}>
-                    {!hideLine && <hr style={{ borderTop: "1px solid lightgray", margin: "5px auto", width: "90%" }} />}
                     <ChatMessageDisplay 
                         message={{ ...message, username: userIdToUsername[message.userId] }} 
                         currentUser={currentUser}
                     />
                 </React.Fragment>
             );
-        })}
+        })} */}
+        {Array.isArray(sortedMessages) && sortedMessages.slice(0, initialMessagePageSize).map((message) => (
+            <ChatMessageDisplay 
+                key={message.id} 
+                message={{ ...message, username: userIdToUsername[message.userId] }} 
+                currentUser={currentUser}
+            />
+        ))}
     </div>
     );
 };
