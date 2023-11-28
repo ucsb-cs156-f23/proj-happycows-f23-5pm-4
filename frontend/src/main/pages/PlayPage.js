@@ -46,19 +46,19 @@ export default function PlayPage() {
     );
   // Stryker restore all
 
-  // Stryker disable all 
-  const { data: userCommonsProfits } =
-    useBackend(
-      [`/api/profits/all/commonsid?commonsId=${commonsId}`],
-      {
-        method: "GET",
-        url: "/api/profits/all/commonsid",
-        params: {
-          commonsId: commonsId
-        }
-      }
-    );
-  // Stryker restore all 
+  // // Stryker disable all 
+  // const { data: userCommonsProfits } =
+  //   useBackend(
+  //     [`/api/profits/all/commonsid?commonsId=${commonsId}`],
+  //     {
+  //       method: "GET",
+  //       url: "/api/profits/all/commonsid",
+  //       params: {
+  //         commonsId: commonsId
+  //       }
+  //     }
+  //   );
+  // // Stryker restore all 
 
 
   // Stryker disable all (can't check if commonsId is null because it is mocked)
@@ -150,7 +150,8 @@ const onSuccessSell = () => {
             <CardGroup >
               <ManageCows userCommons={userCommons} commons={commonsPlus.commons} onBuy={onBuy} onSell={onSell} />
               <FarmStats userCommons={userCommons} />
-              <Profits userCommons={userCommons} profits={userCommonsProfits} />
+              {/* <Profits userCommons={userCommons} commonsId={commonsId} /> */}
+              <Profits commonsId={commonsId} />
             </CardGroup>
           }
         </Container>

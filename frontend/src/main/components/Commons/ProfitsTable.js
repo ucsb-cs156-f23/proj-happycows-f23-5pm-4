@@ -2,12 +2,13 @@ import React from "react";
 import OurTable from "main/components/OurTable";
 import { Button } from "react-bootstrap";
 import { useBackend } from "main/utils/useBackend";
+// import { timestampToDate } from "main/utils/dateUtils";
 
-const PagedProfitsTable = () => {
+const PagedProfitsTable = ({commonsId}) => {
     const testId = "PagedProfitsTable";
     const refreshJobsIntervalMilliseconds = 5000;
 
-    const [userId, selectedPage, setSelectedPage] = React.useState(0);
+    const [selectedPage, setSelectedPage] = React.useState(0);
 
     const pageSize = 5;
 
@@ -15,12 +16,12 @@ const PagedProfitsTable = () => {
     const {
         data: page
     } = useBackend(
-        ["/api/profits/all/commonsid"],
+        ["/api/profits/paged/commonsid"],
         {
             method: "GET",
             url: "/api/profits/paged/commonsid",
             params: {
-                commonsId: userId,
+                commonsId: commonsId,
                 pageNumber: selectedPage,
                 pageSize: pageSize,
             }
@@ -29,6 +30,16 @@ const PagedProfitsTable = () => {
         { refetchInterval: refreshJobsIntervalMilliseconds }
     );
     // Stryker restore  all
+
+    // const page =
+    //     profits ?
+    //     profits.map(profit => ({
+    //         date: timestampToDate(profit.timestamp),
+    //         ...profit
+    //     })) : 
+    //     // Stryker disable next-line ArrayDeclaration : no need to test what happens if [] is replaced with ["Stryker was here"]
+    //     [];
+    //     profitsForTable.reverse();
 
     const testid = "PagedProfitsTable";
 
