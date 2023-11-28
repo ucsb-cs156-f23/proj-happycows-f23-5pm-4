@@ -60,16 +60,26 @@ export default function HomePage({hour=null}) {
 
   //create a list of commons that the user hasn't joined for use in the "Join a New Commons" list.
   const commonsNotJoinedList = commonsNotJoined(commons, commonsJoined);
-  
+
   // Stryker disable all : TODO: restructure this code to avoid the need for this disable
   return (
     <div data-testid={"HomePage-main-div"} style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout>
-        <h1 data-testid="homePage-title" style={{ fontSize: "75px", borderRadius: "7px", backgroundColor: "white", opacity: ".9" }} className="text-center border-0 my-3">Howdy Farmer {firstName}</h1>
+        <h1 data-testid="homePage-title" style={{ fontSize: "50px", borderRadius: "8px", "fontFamily": "Copperplate", color: '#003366', backgroundColor: '#66B2FF', opacity: ".9" }} className="text-center border-0 my-3">Howdy Farmer {firstName}</h1>
         <Container>
           <Row>
-            <Col sm><CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} /></Col>
-            <Col sm><CommonsList commonList={commonsNotJoinedList} title="Join A New Commons" buttonText={"Join"} buttonLink={mutation.mutate} /></Col>
+            <Col sm>
+              <CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} />
+              {
+                commonsJoined.length === 0 ? <p><center>Currently, there are no commons available</center></p> : null 
+              }
+              </Col>
+            <Col sm>
+              <CommonsList commonList={commonsNotJoinedList} title="Join A New Commons" buttonText={"Join"} buttonLink={mutation.mutate} />
+              {
+                commonsNotJoinedList.length === 0 ? <p><center>Currently, there are no commons available</center></p> : null 
+              }
+              </Col>
           </Row>
         </Container>
       </BasicLayout>
