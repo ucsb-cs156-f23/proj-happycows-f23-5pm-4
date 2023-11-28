@@ -52,6 +52,20 @@ describe("HomePage tests", () => {
         });
     });
 
+    test("renders with default when commons list when list is empty", async () => {
+        axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
+        axiosMock.onGet("/api/commons/all").reply(200, []);
+        render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <HomePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        expect(screen.getByText("Currently, there are no commons available")).toBeInTheDocument();
+    });
+
     test("renders with default for commons when api times out", () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/commons/all").timeout();
