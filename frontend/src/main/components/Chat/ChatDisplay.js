@@ -4,7 +4,7 @@ import { useBackend } from "main/utils/useBackend";
 
 // Props for storybook manual injection
 
-const ChatDisplay = ({ commonsId }) => {
+const ChatDisplay = ({ commonsId, currentUser }) => {
     const initialMessagePageSize = 10;
     const refreshRate = 2000;
 
@@ -57,6 +57,7 @@ const ChatDisplay = ({ commonsId }) => {
             <ChatMessageDisplay 
                 key={message.id} 
                 message={{ ...message, username: userIdToUsername[message.userId] }} 
+                currentUser={currentUser}
             />
         ))}
       </div>

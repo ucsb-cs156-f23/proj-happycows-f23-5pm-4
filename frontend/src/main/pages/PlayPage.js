@@ -156,7 +156,7 @@ const onSuccessSell = () => {
         </Container>
       </BasicLayout>
       <div style={chatContainerStyle} data-testid="playpage-chat-div">
-        {!!isChatOpen && <ChatPanel commonsId={commonsId}/>}
+        {!!isChatOpen && <ChatPanel commonsId={commonsId} currentUser={currentUser}/>}
         <Button style={chatButtonStyle} onClick={toggleChatWindow} data-testid="playpage-chat-toggle">
           {!!isChatOpen ? '▼' : '▲'}
         </Button>
