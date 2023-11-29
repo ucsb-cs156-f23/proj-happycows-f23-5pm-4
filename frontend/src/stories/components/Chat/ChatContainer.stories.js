@@ -4,6 +4,7 @@ import { rest } from 'msw';
 import ChatContainer from 'main/components/Chat/ChatContainer';
 import {chatMessageFixtures} from 'fixtures/chatMessageFixtures';
 import userCommonsFixtures from 'fixtures/userCommonsFixtures';
+import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
     title: 'components/Chat/ChatContainer',
@@ -20,12 +21,14 @@ export const Empty = Template.bind({});
 
 Empty.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 export const OneMessage = Template.bind({});
 
 OneMessage.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 OneMessage.parameters = {
@@ -48,6 +51,7 @@ export const ThreeMessages = Template.bind({});
 
 ThreeMessages.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 ThreeMessages.parameters = {
@@ -70,6 +74,7 @@ export const TwelveMessages = Template.bind({});
 
 TwelveMessages.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 TwelveMessages.parameters = {

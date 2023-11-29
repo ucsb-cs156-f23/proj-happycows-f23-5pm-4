@@ -4,6 +4,7 @@ import { rest } from 'msw';
 import ChatPanel from 'main/components/Chat/ChatPanel';
 import {chatMessageFixtures} from 'fixtures/chatMessageFixtures';
 import userCommonsFixtures from 'fixtures/userCommonsFixtures';
+import { currentUserFixtures } from 'fixtures/currentUserFixtures';
 
 export default {
     title: 'components/Chat/ChatPanel',
@@ -20,6 +21,7 @@ export const Empty = Template.bind({});
 
 Empty.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 Empty.parameters = {
@@ -39,6 +41,7 @@ export const OneMessage = Template.bind({});
 
 OneMessage.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 OneMessage.parameters = {
@@ -61,6 +64,7 @@ export const ThreeMessages = Template.bind({});
 
 ThreeMessages.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 ThreeMessages.parameters = {
@@ -83,6 +87,7 @@ export const TwelveMessages = Template.bind({});
 
 TwelveMessages.args = {
     commonsId: 1,
+    currentUser: currentUserFixtures.adminUser,
 };
 
 TwelveMessages.parameters = {
