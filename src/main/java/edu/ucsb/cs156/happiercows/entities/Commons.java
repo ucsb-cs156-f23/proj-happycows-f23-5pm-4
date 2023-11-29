@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -27,8 +27,8 @@ public class Commons {
     private double cowPrice;
     private double milkPrice;
     private double startingBalance;
-    private LocalDateTime startingDate;
-    private LocalDateTime lastDate;
+    private LocalDate startingDate;
+    private LocalDate lastDate;
     private boolean showLeaderboard;
     
     private int capacityPerUser;

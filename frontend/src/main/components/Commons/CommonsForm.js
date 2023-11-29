@@ -8,14 +8,6 @@ import { useEffect } from "react";
 function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     let modifiedCommons = initialCommons ? { ...initialCommons } : {};  // make a shallow copy of initialCommons
 
-    if (modifiedCommons.startingDate) {
-        modifiedCommons.startingDate = modifiedCommons.startingDate.split("T")[0];
-    }
-
-    if (modifiedCommons.lastDate) {
-        modifiedCommons.lastDate = modifiedCommons.lastDate.split("T")[0];
-    }
-
     // Stryker disable all
     const {
         register,
