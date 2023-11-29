@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,8 @@ public class UserCommonsControllerTests extends ControllerTestCase {
             .cowPrice(10)
             .milkPrice(2)
             .startingBalance(300)
-            .startingDate(LocalDateTime.now())
+            .startingDate(LocalDate.now())
+            .lastDate(LocalDate.now().plusMonths(1))
             .build();
 
     public UserCommons getTestUserCommons() {

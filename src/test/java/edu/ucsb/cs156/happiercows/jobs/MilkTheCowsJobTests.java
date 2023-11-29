@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -51,7 +51,8 @@ public class MilkTheCowsJobTests {
             .cowPrice(10)
             .milkPrice(2)
             .startingBalance(300)
-            .startingDate(LocalDateTime.now())
+            .startingDate(LocalDate.now())
+            .lastDate(LocalDate.now().plusMonths(1))
             .carryingCapacity(100)
             .degradationRate(0.01)
             .build();

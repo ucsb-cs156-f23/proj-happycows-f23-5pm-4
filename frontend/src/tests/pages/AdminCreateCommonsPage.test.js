@@ -62,8 +62,8 @@ describe("AdminCreateCommonsPage tests", () => {
             "cowPrice": 10,
             "milkPrice": 5,
             "startingBalance": 500,
-            "startingDate": "2022-03-05T00:00:00",
-            "lastDate": "2023-12-31T00:00:00",
+            "startingDate": "2022-03-05",
+            "lastDate": "2023-12-31",
             "degradationRate": 30.4,
             "capacityPerUser": 10,
             "carryingCapacity": 25,
@@ -115,7 +115,7 @@ describe("AdminCreateCommonsPage tests", () => {
 
         // The Date object is initialized from the form without time information. I believe React
         // Query calls toISOString() before stuffing it into the body of the POST request, so the
-        // POST contains the suffix .000Z, which Java's LocalDateTime.parse ignores. [1]
+        // POST contains the suffix T00:00:00.000Z, which Java's LocalDate.parse ignores. [1]
 
         const expectedCommons = {
             name: "My New Commons",
@@ -137,8 +137,8 @@ describe("AdminCreateCommonsPage tests", () => {
         expect(mockToast).toBeCalledWith(<div>Commons successfully created!
             <br />id: 5
             <br />name: My New Commons
-            <br />startingDate: 2022-03-05T00:00:00
-            <br />lastDate: 2023-12-31T00:00:00
+            <br />startingDate: 2022-03-05
+            <br />lastDate: 2023-12-31
             <br />cowPrice: 10
             <br />capacityPerUser: 10
             <br />carryingCapacity: 25
