@@ -88,6 +88,7 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("Table is formatted correctly", () => {
+    
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
