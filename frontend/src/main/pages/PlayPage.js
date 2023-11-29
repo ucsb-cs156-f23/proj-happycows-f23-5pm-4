@@ -129,6 +129,7 @@ const onSuccessSell = () => {
             </CardGroup>
           }
         </Container>
+      </BasicLayout>
       <ChatContainer commonsId={commonsId} />
     </div>
   )
