@@ -6,7 +6,7 @@ const reportLineFixtures = {
       "cowPrice": 100,
       "milkPrice": 5,
       "startingBalance": 10000,
-      "startingDate": "2023-08-06T00:00:00",
+      "startingDate": "2023-08-06",
       "showLeaderboard": true,
       "carryingCapacity": 10,
       "degradationRate": 0.1,

@@ -1,6 +1,6 @@
 package edu.ucsb.cs156.happiercows.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class Report {
     private double cowPrice;
     private double milkPrice;
     private double startingBalance;
-    private LocalDateTime startingDate;
+    private LocalDate startingDate;
     private boolean showLeaderboard;
     private int carryingCapacity;
     private double degradationRate;
