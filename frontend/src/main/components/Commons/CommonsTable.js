@@ -66,12 +66,12 @@ export default function CommonsTable({ commons, currentUser }) {
         },
         {
             Header: <span>Starting<br />Date</span>,
-            accessor: row => String(row.commons.startingDate).slice(0,10),
+            accessor: row => String(row.commons.startingDate),
             id: 'commons.startingDate'
         },
         {
             Header:'Last Date',
-            accessor: row => String(row.commons.lastDate).slice(0,10),
+            accessor: row => String(row.commons.lastDate),
             id: 'commons.lastDate'
         },
         {

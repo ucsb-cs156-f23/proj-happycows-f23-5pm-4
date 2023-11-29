@@ -27,7 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +62,8 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private final LocalDateTime startingDate = LocalDateTime.parse("2023-11-01T00:00:00");
-    private final LocalDateTime lastDate = LocalDateTime.parse("2030-12-31T23:59:59");
+    private final LocalDate startingDate = LocalDate.parse("2023-11-01");
+    private final LocalDate lastDate = LocalDate.parse("2030-12-31");
 
     @WithMockUser(roles = {"ADMIN"})
     @Test
