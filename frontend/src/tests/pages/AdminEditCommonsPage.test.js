@@ -44,8 +44,9 @@ describe("AdminEditCommonsPage tests", () => {
             axiosMock.onGet("/api/commons/all-health-update-strategies").reply(200, healthUpdateStrategyListFixtures.simple);
             axiosMock.onGet("/api/commons", { params: { id: 5 } }).reply(200, {
                 "id": 5,
-                "name": "Seths Common",
+                "name": "Seth's Commons",
                 "startingDate": "2022-03-05",
+                "lastDate": "2023-12-31",
                 "startingBalance": 1200,
                 "cowPrice": 15,
                 "milkPrice": 10,
@@ -60,6 +61,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "id": 5,
                 "name": "Phill's Commons",
                 "startingDate": "2022-03-07",
+                "lastDate": "2024-01-01",
                 "startingBalance": 1400,
                 "cowPrice": 200,
                 "milkPrice": 5,
@@ -99,6 +101,7 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastDateField = screen.getByLabelText(/Last Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const capacityPerUserField = screen.getByLabelText(/Capacity Per User/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
@@ -106,8 +109,9 @@ describe("AdminEditCommonsPage tests", () => {
             const belowCapacityHealthUpdateStrategyField = screen.getByLabelText(/When below capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
 
-            expect(nameField).toHaveValue("Seths Common");
+            expect(nameField).toHaveValue("Seth's Commons");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(lastDateField).toHaveValue("2023-12-31");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -135,6 +139,7 @@ describe("AdminEditCommonsPage tests", () => {
             const cowPriceField = screen.getByLabelText(/Cow Price/);
             const milkPriceField = screen.getByLabelText(/Milk Price/);
             const startingDateField = screen.getByLabelText(/Starting Date/);
+            const lastDateField = screen.getByLabelText(/Last Date/);
             const degradationRateField = screen.getByLabelText(/Degradation Rate/);
             const capacityPerUserField = screen.getByLabelText(/Capacity Per User/);
             const carryingCapacityField = screen.getByLabelText(/Carrying Capacity/);
@@ -142,8 +147,9 @@ describe("AdminEditCommonsPage tests", () => {
             const belowCapacityHealthUpdateStrategyField = screen.getByLabelText(/When below capacity/);
             const showLeaderboardField = screen.getByLabelText(/Show Leaderboard\?/);
 
-            expect(nameField).toHaveValue("Seths Common");
+            expect(nameField).toHaveValue("Seth's Commons");
             expect(startingDateField).toHaveValue("2022-03-05");
+            expect(lastDateField).toHaveValue("2023-12-31");
             expect(startingBalanceField).toHaveValue(1200);
             expect(cowPriceField).toHaveValue(15);
             expect(milkPriceField).toHaveValue(10);
@@ -160,6 +166,7 @@ describe("AdminEditCommonsPage tests", () => {
 
             fireEvent.change(nameField, { target: { value: "Phill's Commons" } })
             fireEvent.change(startingDateField, { target: { value: "2022-03-07" } })
+            fireEvent.change(lastDateField, { target: { value: "2024-01-01" } })
             fireEvent.change(startingBalanceField, { target: { value: 1400 } })
             fireEvent.change(cowPriceField, { target: { value: 200 } })
             fireEvent.change(milkPriceField, { target: { value: 5 } })
@@ -184,6 +191,7 @@ describe("AdminEditCommonsPage tests", () => {
                 "cowPrice": 200,
                 "milkPrice": 5,
                 "startingDate": "2022-03-07T00:00:00.000Z",
+                "lastDate": "2024-01-01T00:00:00.000Z",
                 "degradationRate": 40.3,
                 "capacityPerUser": 20,
                 "carryingCapacity": 200,

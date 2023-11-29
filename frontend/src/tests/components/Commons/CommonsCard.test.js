@@ -19,7 +19,7 @@ describe("CommonsCard tests", () => {
         const name = screen.getByTestId("commonsCard-name-5");
         expect(name).toBeInTheDocument();
         expect(typeof (name.textContent)).toBe('string');
-        expect(name.textContent).toEqual('Seths Common');
+        expect(name.textContent).toEqual("Seth's Commons");
 
         const id = screen.getByTestId("commonsCard-id-5");
         expect(id).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe("CommonsCard tests", () => {
         const name = screen.getByTestId("commonsCard-name-5");
         expect(name).toBeInTheDocument();
         expect(typeof (name.textContent)).toBe('string');
-        expect(name.textContent).toEqual('Seths Common');
+        expect(name.textContent).toEqual("Seth's Commons");
 
         const id = screen.getByTestId("commonsCard-id-5");
         expect(id).toBeInTheDocument();
