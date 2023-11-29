@@ -70,7 +70,7 @@ export default function CommonsTable({ commons, currentUser }) {
             id: 'commons.startingDate'
         },
         {
-            Header:'Last Date',
+            Header: <span>Last<br />Date</span>,
             accessor: row => String(row.commons.lastDate),
             id: 'commons.lastDate'
         },
