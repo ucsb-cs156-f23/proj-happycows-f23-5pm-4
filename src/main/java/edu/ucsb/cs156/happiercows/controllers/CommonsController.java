@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -80,6 +81,54 @@ public class CommonsController extends ApiController {
         return commonsPlus;
     }
 
+    @Value("${app.commons.default.startingBalance}")
+    private double defaultStartingBalance;
+
+    @Value("${app.commons.default.cowPrice}")
+    private double defaultCowPrice;
+
+    @Value("${app.commons.default.milkPrice}")
+    private double defaultMilkPrice;
+
+    @Value("${app.commons.default.degradationRate}")
+    private double defaultDegradationRate;
+
+    @Value("${app.commons.default.carryingCapacity}")
+    private int defaultCarryingCapacity;
+
+    @Value("${app.commons.default.capacityPerUser}")
+    private int defaultCapacityPerUser;
+
+    @Value("${app.commons.default.aboveCapacityHealthUpdateStrategy}")
+    private CowHealthUpdateStrategies defaultAboveCapacityHealthUpdateStrategy;
+
+    @Value("${app.commons.default.belowCapacityHealthUpdateStrategy}")
+    private CowHealthUpdateStrategies defaultBelowCapacityHealthUpdateStrategy;
+
+    @Operation(summary = "Get the default values for a new commons")
+    @GetMapping("/defaults")
+    public ResponseEntity<String> getDefaults() throws JsonProcessingException {
+        log.info("getDefaults()...");
+
+        // Create a Commons object with the values
+        Commons defaults = Commons.builder()
+                                    .startingBalance(defaultStartingBalance)
+                                    .cowPrice(defaultCowPrice)
+                                    .milkPrice(defaultMilkPrice)
+                                    .degradationRate(defaultDegradationRate)
+                                    .carryingCapacity(defaultCarryingCapacity)
+                                    .capacityPerUser(defaultCapacityPerUser)
+                                    .aboveCapacityHealthUpdateStrategy(defaultAboveCapacityHealthUpdateStrategy)
+                                    .belowCapacityHealthUpdateStrategy(defaultBelowCapacityHealthUpdateStrategy)
+                                    .build();
+
+        // Serialize the Commons object to JSON
+        String body = mapper.writeValueAsString(defaults);
+
+        // Return the serialized JSON as the response body
+        return ResponseEntity.ok().body(body);
+    }
+
     @Operation(summary = "Update a commons")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update")
@@ -105,6 +154,7 @@ public class CommonsController extends ApiController {
         updated.setMilkPrice(params.getMilkPrice());
         updated.setStartingBalance(params.getStartingBalance());
         updated.setStartingDate(params.getStartingDate());
+        updated.setLastDate(params.getLastDate());
         updated.setShowLeaderboard(params.getShowLeaderboard());
         updated.setDegradationRate(params.getDegradationRate());
         updated.setCapacityPerUser(params.getCapacityPerUser());
@@ -170,6 +220,7 @@ public class CommonsController extends ApiController {
                 .milkPrice(params.getMilkPrice())
                 .startingBalance(params.getStartingBalance())
                 .startingDate(params.getStartingDate())
+                .lastDate(params.getLastDate())
                 .degradationRate(params.getDegradationRate())
                 .showLeaderboard(params.getShowLeaderboard())
                 .capacityPerUser(params.getCapacityPerUser())

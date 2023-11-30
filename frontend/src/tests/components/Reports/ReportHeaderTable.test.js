@@ -4,9 +4,10 @@ import { MemoryRouter } from "react-router-dom";
 import ReportHeaderTable from "main/components/Reports/ReportHeaderTable";
 import reportFixtures from "fixtures/reportFixtures";
 
-
 describe("ReportHeaderTable tests", () => {
   const queryClient = new QueryClient();
+
+  const testId = "ReportHeaderTable";
 
   test("Has the expected column headers and content", () => {
 
@@ -22,8 +23,6 @@ describe("ReportHeaderTable tests", () => {
     const expectedFields = [ 'cowPrice', 'milkPrice', 'startingBalance', 'startingDate', 'showLeaderboard', 'carryingCapacity', 'degradationRate', 'belowCapacityHealthUpdateStrategy', 'aboveCapacityHealthUpdateStrategy']
     const expectedHeaders = ['Cow Price', 'Milk Price', 'Start Bal', 'Start Date', 'Leaderboard', 'Capacity', 'Degrad Rate', 'BelowCap', 'AboveCap']
 
-    const testId = "ReportHeaderTable"
-
     expectedHeaders.forEach((headerText) => {
       const header = screen.getByText(headerText);
       expect(header).toBeInTheDocument();
@@ -34,9 +33,9 @@ describe("ReportHeaderTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-cowPrice`)).toHaveTextContent("100");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-milkPrice`)).toHaveTextContent("5");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-startingBalance`)).toHaveTextContent("10000");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-cowPrice`)).toHaveTextContent("$100.00");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-milkPrice`)).toHaveTextContent("$5.00");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-startingBalance`)).toHaveTextContent("$10,000.00");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-startingDate`)).toHaveTextContent(/^2023-08-06$/);
     expect(screen.getByTestId(`${testId}-cell-row-0-col-showLeaderboard`)).toHaveTextContent("true");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-carryingCapacity`)).toHaveTextContent("10");
@@ -44,6 +43,28 @@ describe("ReportHeaderTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-belowCapacityHealthUpdateStrategy`)).toHaveTextContent("Constant");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-aboveCapacityHealthUpdateStrategy`)).toHaveTextContent("Linear");
    
+  });
+
+  test("Cells are formatted correctly", () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <ReportHeaderTable report={reportFixtures.threeReports[1]}  />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+  
+    expect(screen.getAllByText("$100.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("$5.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("$10,000.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText(/^2023-08-06$/)[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("true")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("10")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("0.1")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("Constant")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("Linear")[0]).toHaveStyle("text-align: right;");
+  
   });
 
 });

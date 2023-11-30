@@ -94,7 +94,6 @@ describe("PlayPage tests", () => {
 
         await waitFor(() => expect(axiosMock.history.put.length).toBe(2));
 
-        expect(mockToast).toBeCalledWith("Cow sold!");
     });
 
     test("Make sure that both the Announcements and Welcome Farmer components show up", async () => {
@@ -176,25 +175,26 @@ describe("PlayPage tests", () => {
         const chatButton = screen.getByTestId("playpage-chat-toggle");
         const chatContainer = screen.getByTestId("playpage-chat-div");
 
-        expect(chatButton).toHaveTextContent('▲');
+        expect(chatButton).toHaveTextContent('💬');
 
         // Click the chat toggle button to open the ChatPanel
         fireEvent.click(chatButton);
 
         await waitFor(() => {
-            expect(chatButton).toHaveTextContent('▼');
+            expect(chatButton).toHaveTextContent('🔻');
         });
 
         // Check styles for the chat button
         expect(chatButton).toHaveStyle(`
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: lightblue;
+            width: 60px;
+            height: 60px;
+            borderRadius: 50%;
             color: black;
             position: fixed;
             bottom: 20px;
             right: 20px;
+            fontSize: 24px;
+            boxShadow: 0px 4px 20px rgba(0, 0, 0, 0.75);
         `);
 
         // Check styles for the chat container

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
 import { MemoryRouter as Router } from "react-router-dom";
 import CommonsForm from "main/components/Commons/CommonsForm";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -46,6 +46,7 @@ describe("CommonsForm tests", () => {
       /Cow Price/,
       /Milk Price/,
       /Starting Date/,
+      /Last Date/,
       /Degradation Rate/,
       /Capacity Per User/,
       /Carrying Capacity/,
@@ -108,6 +109,7 @@ describe("CommonsForm tests", () => {
     fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "-1" } });
     fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: NaN } });
+    fireEvent.change(screen.getByTestId("CommonsForm-lastDate"), { target: { value: NaN } });
     fireEvent.click(submitButton);
 
     //Await
@@ -122,6 +124,7 @@ describe("CommonsForm tests", () => {
       "CommonsForm-cowPrice",
       "CommonsForm-startingBalance",
       "CommonsForm-startingDate",
+      "CommonsForm-lastDate",
 
     ].forEach(
       (item) => {
@@ -150,15 +153,22 @@ describe("CommonsForm tests", () => {
   it("Check Default Values and correct styles", async () => {
 
     const curr = new Date();
-    const today = curr.toISOString().substr(0, 10);
+    const today = curr.toISOString().split('T')[0];
+    const oneMonthLater = new Date(curr.getFullYear(), curr.getMonth()+1, curr.getDate()).toISOString().split('T')[0];
+
     const DefaultVals = {
-      name: "", startingBalance: 10000, cowPrice: 100,
-      milkPrice: 1, degradationRate: 0.001, carryingCapacity: 100, startingDate: today
+        name: "", startingBalance: 10000, cowPrice: 100,
+        milkPrice: 1, degradationRate: 0.001, carryingCapacity: 100,
+        startingDate: today, lastDate: oneMonthLater
     };
 
     axiosMock
         .onGet("/api/commons/all-health-update-strategies")
         .reply(200, healthUpdateStrategyListFixtures.real);
+
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, DefaultVals);
 
     render(
         <QueryClientProvider client={new QueryClient()}>
@@ -171,7 +181,8 @@ describe("CommonsForm tests", () => {
     expect(await screen.findByTestId("CommonsForm-name")).toBeInTheDocument();
     [
       "name", "degradationRate", "carryingCapacity",
-      "milkPrice","cowPrice","startingBalance","startingDate",
+      "milkPrice","cowPrice","startingBalance",
+      "startingDate", "lastDate"
     ].forEach(
         (item) => {
           const element = screen.getByTestId(`CommonsForm-${item}`);
@@ -185,6 +196,8 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("CommonsForm-r2")).toHaveStyle('width: 80%');
     expect(screen.getByTestId("CommonsForm-r3")).toHaveStyle('width: 300px');
     expect(screen.getByTestId("CommonsForm-r3")).toHaveStyle('height: 50px');
+    expect(screen.getByTestId("CommonsForm-r4")).toHaveStyle('width: 300px');
+    expect(screen.getByTestId("CommonsForm-r4")).toHaveStyle('height: 50px');
     expect(screen.getByTestId("CommonsForm-Submit-Button")).toHaveStyle('width: 30%');
   });
 
@@ -275,14 +288,26 @@ describe("CommonsForm tests", () => {
     );
 
     expect(await screen.findByText(/Id/)).toBeInTheDocument();
-    expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(commonsFixtures.threeCommons[0].startingDate.split("T")[0]);
+    expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(commonsFixtures.threeCommons[0].startingDate);
+    expect(screen.getByTestId("CommonsForm-lastDate")).toHaveValue(commonsFixtures.threeCommons[0].lastDate);
   });
 
   it("renders correctly when an initialCommons is not passed in", async () => {
+    const curr = new Date();
+    const today = curr.toISOString().substr(0, 10);
+    const DefaultVals = {
+      name: "", startingBalance: 10000, cowPrice: 100,
+      milkPrice: 1, degradationRate: 0.001, carryingCapacity: 100, startingDate: today,
+      aboveCapacityHealthUpdateStrategy: "Linear", belowCapacityHealthUpdateStrategy: "Constant"
+    };
 
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
       .reply(200, healthUpdateStrategyListFixtures.real);
+    
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, DefaultVals);
 
     render(
       <QueryClientProvider client={new QueryClient()}>
@@ -290,6 +315,17 @@ describe("CommonsForm tests", () => {
           <CommonsForm />
         </Router>
       </QueryClientProvider>
+    );
+
+    expect(await screen.findByTestId("CommonsForm-name")).toBeInTheDocument();
+    [
+      "name", "degradationRate", "carryingCapacity",
+      "milkPrice","cowPrice","startingBalance","startingDate",
+    ].forEach(
+        (item) => {
+          const element = screen.getByTestId(`CommonsForm-${item}`);
+          expect(element).toHaveValue(DefaultVals[item]);
+        }
     );
 
     expect(await screen.findByText(/When below capacity/)).toBeInTheDocument();
@@ -300,11 +336,63 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("belowCapacityHealthUpdateStrategy-Constant")).toHaveAttribute("selected");
   });
 
+  it('sets default values when defaults are available and initialCommons is not provided', async () => {
+    const submitAction = jest.fn();
+  
+    axiosMock
+      .onGet("/api/commons/all-health-update-strategies")
+      .reply(200, healthUpdateStrategyListFixtures.real);
+  
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, {
+        startingBalance: 5000,
+        cowPrice: 50,
+        milkPrice: 0.5,
+        degradationRate: 0.005,
+        carryingCapacity: 500,
+        capacityPerUser: 5,
+        aboveCapacityHealthUpdateStrategy: "Linear",
+        belowCapacityHealthUpdateStrategy: "Constant",
+      });
+  
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <Router>
+          <CommonsForm submitAction={submitAction} />
+        </Router>
+      </QueryClientProvider>
+    );
+  
+    fireEvent.change(screen.getByTestId("CommonsForm-startingBalance"), { target: { value: "0" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-cowPrice"), { target: { value: "0" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-milkPrice"), { target: { value: "0" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "0" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "0" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: { value: "0" } });
+
+    // force invoke useEffect
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+  
+    expect(screen.getByTestId('CommonsForm-startingBalance')).toHaveValue(5000);
+    expect(screen.getByTestId('CommonsForm-cowPrice')).toHaveValue(50);
+    expect(screen.getByTestId('CommonsForm-milkPrice')).toHaveValue(0.5);
+    expect(screen.getByTestId('CommonsForm-degradationRate')).toHaveValue(0.005);
+    expect(screen.getByTestId('CommonsForm-carryingCapacity')).toHaveValue(500);
+    expect(screen.getByTestId('CommonsForm-capacityPerUser')).toHaveValue(5);
+  });
+
   test("the correct parameters are passed to useBackend", async () => {
 
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
       .reply(200, healthUpdateStrategyListFixtures.real);
+    
+    axiosMock
+      .onGet("/api/commons/defaults")
+      .reply(200, commonsFixtures.defaultCommons);;
 
     // https://www.chakshunyu.com/blog/how-to-spy-on-a-named-import-in-jest/
     const useBackendSpy = jest.spyOn(useBackendModule, 'useBackend');
@@ -322,6 +410,14 @@ describe("CommonsForm tests", () => {
         "/api/commons/all-health-update-strategies", {
         method: "GET",
         url: "/api/commons/all-health-update-strategies",
+      },
+      );
+    });
+    await waitFor(() => {
+      expect(useBackendSpy).toHaveBeenCalledWith(
+        "/api/commons/defaults", {
+        method: "GET",
+        url: "/api/commons/defaults",
       },
       );
     });

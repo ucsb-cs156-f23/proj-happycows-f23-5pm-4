@@ -21,11 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -59,17 +62,19 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Autowired
     private ObjectMapper objectMapper;
 
+    private final LocalDate startingDate = LocalDate.parse("2023-11-01");
+    private final LocalDate lastDate = LocalDate.parse("2030-12-31");
+
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void createCommonsTest() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -83,7 +88,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -115,14 +121,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void createCommonsTest_withNoCowHealthUpdateStrategies() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -134,7 +139,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -167,14 +173,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void createCommonsTest_zeroDegradation() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -186,7 +191,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -216,14 +222,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void createCommonsTest_withIllegalDegradationRate() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(-8.49)
                 .capacityPerUser(10)
                 .carryingCapacity(100)
@@ -234,7 +239,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(-8.49)
                 .capacityPerUser(10)
                 .carryingCapacity(100)
@@ -277,14 +283,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void updateCommonsTest() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -298,7 +303,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -357,14 +363,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void updateCommonsTest_withNoCowHealthUpdateStrategy() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -376,7 +381,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -411,14 +417,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void updateCommonsTest_withDegradationRate_Zero() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -430,7 +435,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -481,14 +487,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void updateCommonsTest_withIllegalDegradationRate() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -500,7 +505,8 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -738,14 +744,13 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"ADMIN"})
     @Test
     public void deleteCommons_test_admin_exists() throws Exception {
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
-
         Commons c = Commons.builder()
                 .name("Jackson's Commons")
                 .cowPrice(500.99)
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
-                .startingDate(someTime)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -1014,19 +1019,19 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void UpdateCommonsTest_withIllegalParameters() throws Exception {
         // we first create a commons to update
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
         Commons commons = Commons.builder()
-        .name("Jackson's Commons")
-        .cowPrice(500.99)
-        .milkPrice(8.99)
-        .startingBalance(1020.10)
-        .startingDate(someTime)
-        .degradationRate(50.0)
-        .showLeaderboard(false)
-        .carryingCapacity(100)
-        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
-        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
-        .build();
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .carryingCapacity(100)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
 
         when(commonsRepository.findById(0L))
                 .thenReturn(Optional.of(commons));
@@ -1147,19 +1152,19 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void UpdateCommonsTest_withBoundaryParameters() throws Exception {
         // we first create a commons to update
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
         Commons commons = Commons.builder()
-        .name("Jackson's Commons")
-        .cowPrice(500.99)
-        .milkPrice(8.99)
-        .startingBalance(1020.10)
-        .startingDate(someTime)
-        .degradationRate(50.0)
-        .showLeaderboard(false)
-        .carryingCapacity(100)
-        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
-        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
-        .build();
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .carryingCapacity(100)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
 
         when(commonsRepository.findById(0L))
                 .thenReturn(Optional.of(commons));
@@ -1191,21 +1196,20 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = {"USER"})
     @Test void test_capacity_with_lower_per_user() throws Exception{
-        
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
         Commons commons = Commons.builder()
-        .name("Jackson's Commons")
-        .cowPrice(500.99)
-        .milkPrice(8.99)
-        .startingBalance(1020.10)
-        .startingDate(someTime)
-        .degradationRate(50.0)
-        .showLeaderboard(false)
-        .capacityPerUser(5)
-        .carryingCapacity(10)
-        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
-        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
-        .build();
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .capacityPerUser(5)
+                .carryingCapacity(10)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
 
         CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalUsers(1).totalCows(5).build();
 
@@ -1214,27 +1218,47 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = {"USER"})
     @Test void test_capacity_with_higher_per_user() throws Exception{
-        
-        LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
         Commons commons = Commons.builder()
-        .name("Jackson's Commons")
-        .cowPrice(500.99)
-        .milkPrice(8.99)
-        .startingBalance(1020.10)
-        .startingDate(someTime)
-        .degradationRate(50.0)
-        .showLeaderboard(false)
-        .capacityPerUser(50)
-        .carryingCapacity(10)
-        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
-        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
-        .build();
+                .name("Jackson's Commons")
+                .cowPrice(500.99)
+                .milkPrice(8.99)
+                .startingBalance(1020.10)
+                .startingDate(startingDate)
+                .lastDate(lastDate)
+                .degradationRate(50.0)
+                .showLeaderboard(false)
+                .capacityPerUser(50)
+                .carryingCapacity(10)
+                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                .build();
 
         CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalUsers(2).totalCows(5).build();
 
         assertEquals(100, commonsPlus.getEffectiveCapacity());
     }
 
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getDefaultsTest() throws Exception {
+        Commons commons = Commons.builder()
+                                        .startingBalance(10000)
+                                        .cowPrice(100)
+                                        .milkPrice(1)
+                                        .degradationRate(0.001)
+                                        .carryingCapacity(100) //int
+                                        .capacityPerUser(1)     //int
+                                        .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear)
+                                        .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Constant)
+                                        .build();
 
+        MvcResult response = mockMvc.perform(get("/api/commons/defaults").contentType("application/json"))
+                .andExpect(status().isOk()).andReturn();
+
+
+        String responseString = response.getResponse().getContentAsString();
+        String actual = mapper.writeValueAsString(commons);
+
+        assertEquals(actual, responseString);
+    }
 }
-

@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +19,9 @@ public class CreateCommonsParams {
     @NumberFormat
     private double startingBalance;
     @DateTimeFormat
-    private LocalDateTime startingDate;
+    private LocalDate startingDate;
+    @DateTimeFormat
+    private LocalDate lastDate;
     @Builder.Default
     private Boolean showLeaderboard = false;
     @NumberFormat
