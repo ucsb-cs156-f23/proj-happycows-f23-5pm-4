@@ -387,4 +387,109 @@ public class UpdateCowHealthJobTests {
                 Assertions.assertEquals("Error calling getNumUsers(117)",
                                 thrown.getMessage());
         }
+
+    @Test
+    void test_cannot_update_before_start_date() throws Exception {
+
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .user(user)
+                .commons(commons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        Commons testCommons = Commons
+                .builder()
+                .name("test commons")
+                .cowPrice(10)
+                .milkPrice(2)
+                .startingBalance(300)
+                .startingDate(LocalDate.parse("3000-01-01")) // arbitrarily far into the future
+                .lastDate(LocalDate.parse("3000-12-31"))
+                .carryingCapacity(100)
+                .degradationRate(0.36)
+                .build();
+
+        CommonsPlus commonsPlus = CommonsPlus.builder().commons(testCommons).totalCows(1).totalUsers(1).build();
+
+        when(commonsRepository.findAll()).thenReturn(List.of(testCommons));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                .thenReturn(List.of(origUserCommons));
+        when(commonsPlusBuilderService.convertToCommonsPlus(eq(List.of(testCommons)))).thenReturn(List.of(commonsPlus));
+        when(commonsPlusBuilderService.toCommonsPlus(eq(testCommons))).thenReturn(commonsPlus);
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(1));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                userRepository, commonsPlusBuilderService);
+        updateCowHealthJob.accept(ctx);
+
+        // Assert
+        String expected = """
+               Updating cow health...
+               Commons test commons is not currently in progress; cow health will not be updated for this commons.
+               Cow health has been updated!""";
+        assertEquals(expected, jobStarted.getLog());
+        assertEquals(origUserCommons.getCowHealth(), 10);
+    }
+
+    @Test
+    void test_cannot_update_after_end_date() throws Exception {
+
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .user(user)
+                .commons(commons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        Commons testCommons = Commons
+                .builder()
+                .name("test commons")
+                .cowPrice(10)
+                .milkPrice(2)
+                .startingBalance(300)
+                .startingDate(LocalDate.parse("2000-01-01"))
+                .lastDate(LocalDate.parse("2000-12-31"))
+                .carryingCapacity(100)
+                .degradationRate(0.36)
+                .build();
+
+        CommonsPlus commonsPlus = CommonsPlus.builder().commons(testCommons).totalCows(1).totalUsers(1).build();
+
+        when(commonsRepository.findAll()).thenReturn(List.of(testCommons));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                .thenReturn(List.of(origUserCommons));
+        when(commonsPlusBuilderService.convertToCommonsPlus(eq(List.of(testCommons)))).thenReturn(List.of(commonsPlus));
+        when(commonsPlusBuilderService.toCommonsPlus(eq(testCommons))).thenReturn(commonsPlus);
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(1));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                userRepository, commonsPlusBuilderService);
+        updateCowHealthJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Updating cow health...
+                Commons test commons is not currently in progress; cow health will not be updated for this commons.
+                Cow health has been updated!""";
+        assertEquals(expected, jobStarted.getLog());
+        assertEquals(origUserCommons.getCowHealth(), 10);
+    }
+
 }

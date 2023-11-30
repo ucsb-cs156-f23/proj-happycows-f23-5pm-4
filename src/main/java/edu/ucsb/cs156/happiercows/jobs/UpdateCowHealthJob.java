@@ -30,17 +30,16 @@ public class UpdateCowHealthJob implements JobContextConsumer {
     public void accept(JobContext ctx) throws Exception {
         ctx.log("Updating cow health...");
 
-
         Iterable<Commons> allCommons = commonsRepository.findAll();
         Iterable<CommonsPlus> allCommonsPlus = commonsPlusBuilderService.convertToCommonsPlus(allCommons);
 
         for (CommonsPlus commonsPlus : allCommonsPlus) {
-
-
             Commons commons = commonsPlus.getCommons();
-            
+            if (!commons.gameInProgress()) {
+                ctx.log("Commons " + commons.getName() + " is not currently in progress; cow health will not be updated for this commons.");
+                continue;
+            }
             runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
-            
         }
 
         ctx.log("Cow health has been updated!");
