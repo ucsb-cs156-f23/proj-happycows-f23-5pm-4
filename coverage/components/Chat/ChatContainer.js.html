@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/Commons/FarmStats.js</title>
+    <title>Code coverage report for components/Chat/ChatContainer.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Commons</a> FarmStats.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Chat</a> ChatContainer.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -89,17 +89,25 @@
 <a name='L24'></a><a href='#L24'>24</a>
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">39x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -107,56 +115,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
-import { Card } from "react-bootstrap";
-import { ProgressBar } from "react-bootstrap";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, {useState} from "react";
+import ChatPanel from "./ChatPanel";
+import ChatToggle from "./ChatToggle";
 &nbsp;
-const FarmStats = ({userCommons}) =&gt; {
+const ChatContainer = ({commonsId}) =&gt; {
+    const chatContainerStyle = {
+        width: '550px',
+        position: 'fixed',
+        bottom: '100px',
+        right: '20px',
+      };
+&nbsp;
+    const [isChatOpen, setIsChatOpen] = useState(false);
+&nbsp;
+    const toggleChatWindow = () =&gt; {
+        setIsChatOpen((prevState) =&gt; !prevState);
+    };
+&nbsp;
     return (
-        &lt;Card&gt;
-        &lt;Card.Header as="h5"&gt;Your Farm Stats&lt;/Card.Header&gt;
-        &lt;Card.Body&gt;
-            {/* update total wealth and cow health with data from fixture */}
-            &lt;Card.Title className="text-center"&gt;
-                💰 Total Wealth: ${userCommons.totalWealth.toFixed(2)}
-            &lt;/Card.Title&gt;
-            &lt;Card.Text&gt;
-                Total Cows Bought: {userCommons.cowsBought}
-            &lt;/Card.Text&gt;
-            &lt;Card.Text&gt;
-                Total Cows Sold: {userCommons.cowsSold}
-            &lt;/Card.Text&gt;
-            &lt;Card.Title className="text-center"&gt;
-                ❤️ Cow Health: {Math.round(userCommons.cowHealth*100)/100}%
-            &lt;/Card.Title&gt;
-            &lt;ProgressBar now={userCommons.cowHealth} min={0} max={100} variant="danger" /&gt;
-            &lt;Card.Text&gt;
-                💀 Cow Deaths: {userCommons.cowDeaths}
-            &lt;/Card.Text&gt;
-        &lt;/Card.Body&gt;
-        &lt;/Card&gt;
-    ); 
-}; 
+        &lt;div style={chatContainerStyle} data-testid="playpage-chat-div"&gt;
+            {!!isChatOpen &amp;&amp; &lt;ChatPanel commonsId={commonsId}/&gt;}
+            &lt;ChatToggle isChatOpen={isChatOpen} onClick={toggleChatWindow} /&gt;
+        &lt;/div&gt;
+    );
+};
 &nbsp;
-export default FarmStats; </pre></td></tr></table></pre>
+export default ChatContainer;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
