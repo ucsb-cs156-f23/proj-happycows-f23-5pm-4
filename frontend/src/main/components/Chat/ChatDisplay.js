@@ -52,7 +52,7 @@ const ChatDisplay = ({ commonsId, currentUser }) => {
     }, {});
 
     return (
-      <div style={{ display: "flex", flexDirection: "column-reverse", overflowY: "scroll", maxHeight: "300px" }} data-testid="ChatDisplay" >
+    <div style={{ display: "flex", flexDirection: "column-reverse", overflowY: "scroll", maxHeight: "300px", border: "1px solid lightgray", borderRadius: "5px" }} data-testid="ChatDisplay" >
         {Array.isArray(sortedMessages) && sortedMessages.slice(0, initialMessagePageSize).map((message) => (
             <ChatMessageDisplay 
                 key={message.id} 
@@ -60,7 +60,7 @@ const ChatDisplay = ({ commonsId, currentUser }) => {
                 currentUser={currentUser}
             />
         ))}
-      </div>
+    </div>
     );
 };
 

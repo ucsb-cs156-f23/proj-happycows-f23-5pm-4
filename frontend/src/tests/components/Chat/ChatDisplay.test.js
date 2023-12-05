@@ -38,6 +38,8 @@ describe("ChatDisplay tests", () => {
     expect(screen.getByTestId("ChatDisplay")).toHaveStyle("maxHeight: 300px");
     expect(screen.getByTestId("ChatDisplay")).toHaveStyle("display: flex");
     expect(screen.getByTestId("ChatDisplay")).toHaveStyle("flexDirection: column-reverse");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("border: 1px solid lightgray");
+    expect(screen.getByTestId("ChatDisplay")).toHaveStyle("borderRadius: 5px");
 
   });
 
