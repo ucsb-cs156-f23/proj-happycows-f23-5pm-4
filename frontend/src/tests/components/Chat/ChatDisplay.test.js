@@ -62,7 +62,7 @@ describe("ChatDisplay tests", () => {
     });
     
     expect(screen.queryByText("Anonymous")).not.toBeInTheDocument();
-    expect(screen.queryByText("George Washington (1)")).not.toBeInTheDocument();
+    expect(screen.queryByText("George Washington")).not.toBeInTheDocument();
     expect(screen.queryByText("Hello World")).not.toBeInTheDocument();
     expect(screen.queryByText("2023-08-17 23:57:46")).not.toBeInTheDocument();
 
@@ -105,15 +105,15 @@ describe("ChatDisplay tests", () => {
 
     /* eslint-enable testing-library/no-node-access */
 
-    expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveTextContent("George Washington (1)");
+    expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveTextContent("George Washington");
     expect(screen.getByTestId("ChatMessageDisplay-1-Message")).toHaveTextContent("Hello World");
     expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveTextContent("2023-08-17 23:57:46");
 
-    expect(screen.getByTestId("ChatMessageDisplay-2-User")).toHaveTextContent("Thomas Jefferson (3)");
+    expect(screen.getByTestId("ChatMessageDisplay-2-User")).toHaveTextContent("Thomas Jefferson");
     expect(screen.getByTestId("ChatMessageDisplay-2-Message")).toHaveTextContent("Hello World How are you doing???");
     expect(screen.getByTestId("ChatMessageDisplay-2-Date")).toHaveTextContent("2023-08-18 02:59:11");
 
-    expect(screen.getByTestId("ChatMessageDisplay-3-User")).toHaveTextContent("John Adams (2)");
+    expect(screen.getByTestId("ChatMessageDisplay-3-User")).toHaveTextContent("John Adams");
     expect(screen.getByTestId("ChatMessageDisplay-3-Message")).toHaveTextContent("This is another test for chat messaging");
     expect(screen.getByTestId("ChatMessageDisplay-3-Date")).toHaveTextContent("2023-08-18 02:59:28");
 
@@ -148,7 +148,7 @@ describe("ChatDisplay tests", () => {
         expect(screen.getByTestId("ChatMessageDisplay-1")).toBeInTheDocument();
 
     });
-    expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveTextContent("Anonymous (1)");
+    expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveTextContent("Anonymous");
     expect(screen.getByTestId("ChatMessageDisplay-1-Message")).toHaveTextContent("Hello World");
     expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveTextContent("2023-08-17 23:57:46");
 
