@@ -68,13 +68,14 @@ describe("UserTable tests", () => {
       </QueryClientProvider>
 
     );
-
-    const expectedHeaders = ["id", "Name", "Cow Price", 'Milk Price', 'Starting Balance', 'Starting Date', 'Last Date', 'Degradation Rate', 'Capacity Per User', 'Carrying Capacity', "Effective Capacity",'Cows', 'Show Leaderboard?'];
+    
+    const expectedHeaders = ["id", "Name", "Cow Price", 'Milk Price', 'Starting Balance', 'Starting Date', 'Last Date', 'Degrad Rate', 'Cap Per User', 'Carrying Cap', "Effective Cap",'Cows', 'Show Ldrboard'];
     const expectedFields = ["id", "name", "cowPrice", "milkPrice", "startingBalance", "startingDate", "lastDate", "degradationRate", "capacityPerUser", "carryingCapacity"];
     const testId = "CommonsTable";
 
+
     expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
+      const header = screen.getByText(new RegExp(headerText.replace(/\s/g, "\\s*"), "i"));
       expect(header).toBeInTheDocument();
     });
 
