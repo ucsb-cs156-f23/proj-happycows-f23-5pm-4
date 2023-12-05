@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,22 +62,18 @@ public class MilkTheCowsJobTests {
     void test_log_output_no_commons() throws Exception {
 
         // Arrange
-
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
 
         // Act
         MilkTheCowsJob milkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
                 userRepository, profitRepository);
-
         milkTheCowsJob.accept(ctx);
 
         // Assert
-
         String expected = """
                 Starting to milk the cows
                 Cows have been milked!""";
-
         assertEquals(expected, jobStarted.getLog());
     }
 
@@ -97,10 +93,10 @@ public class MilkTheCowsJobTests {
                 .cowHealth(10)
                 .build();
 
-        when(commonsRepository.findAll()).thenReturn(Arrays.asList(testCommons));
+        when(commonsRepository.findAll()).thenReturn(List.of(testCommons));
         when(userCommonsRepository.findByCommonsId(testCommons.getId()))
-                .thenReturn(Arrays.asList(origUserCommons));
-        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+                .thenReturn(List.of(origUserCommons));
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(1));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         // Act
@@ -109,14 +105,12 @@ public class MilkTheCowsJobTests {
         MilkTheCowsJob.accept(ctx);
 
         // Assert
-
         String expected = """
                 Starting to milk the cows
                 Milking cows for Commons: test commons, Milk Price: $2.00
                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
                 Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20
                 Cows have been milked!""";
-
         assertEquals(expected, jobStarted.getLog());
     }
 
@@ -145,26 +139,115 @@ public class MilkTheCowsJobTests {
                 .cowHealth(10)
                 .build();
 
-        Commons commonsTemp[] = {testCommons};
-        UserCommons userCommonsTemp[] = {origUserCommons};
-        when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+        when(commonsRepository.findAll()).thenReturn(List.of(testCommons));
         when(userCommonsRepository.findByCommonsId(testCommons.getId()))
-                .thenReturn(Arrays.asList(userCommonsTemp));
-        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
+                .thenReturn(List.of(origUserCommons));
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(1));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(userCommonsRepository.save(updatedUserCommons)).thenReturn(updatedUserCommons);
-
 
         // Act
         MilkTheCowsJob.milkCows(ctx, testCommons, origUserCommons, profitRepository, userCommonsRepository);
 
         // Assert
-
         String expected = """
                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
                 Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20""";
-
         verify(userCommonsRepository).save(updatedUserCommons);
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_cannot_milk_cows_before_start_date() throws Exception {
+
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .user(user)
+                .commons(testCommons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        Commons testCommons = Commons
+                .builder()
+                .name("test commons")
+                .cowPrice(10)
+                .milkPrice(2)
+                .startingBalance(300)
+                .startingDate(LocalDate.parse("3000-01-01")) // arbitrarily far into the future
+                .lastDate(LocalDate.parse("3000-12-31"))
+                .carryingCapacity(100)
+                .degradationRate(0.01)
+                .build();
+
+        when(commonsRepository.findAll()).thenReturn(List.of(testCommons));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                .thenReturn(List.of(origUserCommons));
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(1));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        MilkTheCowsJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Starting to milk the cows
+                Commons test commons is not currently in progress; cows will not be milked in this commons.
+                Cows have been milked!""";
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    @Test
+    void test_cannot_milk_cows_after_end_date() throws Exception {
+
+        // Arrange
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+
+        UserCommons origUserCommons = UserCommons
+                .builder()
+                .user(user)
+                .commons(testCommons)
+                .totalWealth(300)
+                .numOfCows(1)
+                .cowHealth(10)
+                .build();
+
+        Commons testCommons = Commons
+                .builder()
+                .name("test commons")
+                .cowPrice(10)
+                .milkPrice(2)
+                .startingBalance(300)
+                .startingDate(LocalDate.parse("2000-01-01"))
+                .lastDate(LocalDate.parse("2000-12-31"))
+                .carryingCapacity(100)
+                .degradationRate(0.01)
+                .build();
+
+        when(commonsRepository.findAll()).thenReturn(List.of(testCommons));
+        when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                .thenReturn(List.of(origUserCommons));
+        when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(1));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        // Act
+        MilkTheCowsJob milkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
+                userRepository, profitRepository);
+        milkTheCowsJob.accept(ctx);
+
+        // Assert
+        String expected = """
+                Starting to milk the cows
+                Commons test commons is not currently in progress; cows will not be milked in this commons.
+                Cows have been milked!""";
         assertEquals(expected, jobStarted.getLog());
     }
 }
